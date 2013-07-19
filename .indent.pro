@@ -1,0 +1,13 @@
+--braces-on-if-line
+--braces-after-func-def-line
+--blank-lines-after-procedures
+-bs
+--cuddle-do-while
+--line-length90
+--comment-line-length120
+//--ignore-newlines
+--honour-newlines
+--indent-level2
+--no-tabs
+--linux-style
+-brs
