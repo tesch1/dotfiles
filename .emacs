@@ -107,5 +107,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(font-lock-comment-face ((t (:foreground "Yellow"))))
- '(font-lock-string-face ((t (:foreground "Orange")))))
+ '(font-lock-string-face ((t (:foreground "Orange"))))
+ '(menu ((t (:inverse-video t)))))
 
