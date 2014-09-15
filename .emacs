@@ -9,12 +9,14 @@
 (autoload 'magicalii-mode "~/.xemacs/magicalii-mode.el" t)
 (autoload 'web-mode "~/.xemacs/web-mode.el" t)
 (autoload 'go-mode "~/.xemacs/go-mode.el" t)
+(autoload 'lua-mode "~/.xemacs/lua-mode.el" t)
 
 (setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
 (setq auto-mode-alist (cons '("\\.cu\\'" . c-mode) auto-mode-alist)) ;; CUDA
 (setq auto-mode-alist (cons '("\\.cl\\'" . c-mode) auto-mode-alist)) ;; OpenCL
 (setq auto-mode-alist (cons '("\\.html\\'" . web-mode) auto-mode-alist)) ;; templates
 (setq auto-mode-alist (cons '("\\.go\\'" . go-mode) auto-mode-alist)) ;; go
+(setq auto-mode-alist (cons '("\\.lua\\'" . lua-mode) auto-mode-alist)) ;; Lua
 
 ;
 ; disable auto autofilling in matlab mode (?)
@@ -93,8 +95,10 @@
  '(custom-enabled-themes (quote (wheatgrass)))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(lua-indent-level 2)
  '(matlab-indent-level 2)
  '(python-indent 2)
+ '(python-indent-offset 2)
  '(tool-bar-mode nil)
  '(toolbar-visible-p nil))
 (custom-set-faces

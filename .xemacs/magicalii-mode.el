@@ -26,17 +26,17 @@
 ; with a lot of help from: http://ergoemacs.org/emacs/elisp_basics.html
 ;
 ; to install this mode into your emacs installation, and have it automatically
-; pick up all files wiht a */maclib/* in their path, add the following to
-; your initialization file:
+; pick up all files with a */maclib/* in their path, add the following to
+; your initialization file (~/.emacs ~/.xemacsrc ~/.xemacs/init.el or whatevs):
 ;
-; (require magicalii-mode)
-; -or-
 ; (autoload 'magicalii-mode "...path/to/magicalii-mode.el" t)
-;
-; then:
 ; (add-to-list 'auto-mode-alist 
 ;   '(".*/maclib/*." . magicalii-mode))
 ;
+
+
+; Define a hook to allow users to run their own code when this mode is run.
+(defvar magicalii-mode-hook nil)
 
 ;; define several class of keywords
 (defvar magical-keywords
@@ -47,42 +47,54 @@
 
 ;; builtin functions (for which no maclib/ file exists)
 (defvar magical-builtin
-  '("exist" "write" "substr" "destroy" "vnmrjcmd" "teststr" "readfile" "create"
-    "format" "string2array" "teststr" "purge" "string" "real" "setlimit" "input")
+  '("exists" "write" "substr" "destroy" "vnmrjcmd" "teststr" "readfile" "create"
+    "format" "string2array" "array2string" "teststr" "purge" "string" "real" 
+    "setlimit" "input" "exec" "shell" "is_param" "strstr" "setprotect" "jFunc"
+    "debug")
   "Magical builtin functions.")
 
-; constants should be strings and reals -- todo: check for real & real bounds
+;; constants should be strings and reals -- 
+;todo: check for real & real bounds
+;todo: match regex for reals
 (defvar magical-constant
   '("macro")
-  "Magical constant variables.")
+  "Magical constant valued symbols.")
 
+;; variables - just match local vars for now
+;(defvar magical-variable
+;  '("\$\w+")
+;  "Magical variables.")
+
+;; functions/macro calls
 (defvar magical-functions
   '("blahhh")
   "Magical functions.")
 
 ;; create the regex string for each class of keywords
-(defvar magical-keywords-regexp (regexp-opt magical-keywords 'words))
+(defvar magical-keywords-regexp 
+  (regexp-opt magical-keywords 'words)
+  )
 (defvar magical-constant-regexp (regexp-opt magical-constant 'words))
 (defvar magical-builtin-regexp (regexp-opt magical-builtin 'words))
 (defvar magical-functions-regexp (regexp-opt magical-functions 'words))
+;(defvar magical-variable-regexp (regexp-opt magical-variable))
 
 ;; clear memory
 (setq magical-keywords nil)
 (setq magical-constant nil)
 (setq magical-builtin nil)
 (setq magical-functions nil)
+;(setq magical-variable nil)
 
 ;; create the list for font-lock.
 ;; each class of keyword is given a particular face
 (setq magical-font-lock-keywords
   `(
-    (,magical-builtin-regexp . font-lock-builtin-face)
-    (,magical-constant-regexp . font-lock-constant-face)
-    (,magical-functions-regexp . font-lock-function-name-face)
     (,magical-keywords-regexp . font-lock-keyword-face)
-    ;; note: order above matters. "magical-keywords-regexp" goes last because
-    ;; otherwise the keyword "state" in the function "state_entry"
-    ;; would be highlighted.
+    (,magical-constant-regexp . font-lock-constant-face)
+    (,magical-builtin-regexp . font-lock-builtin-face)
+    (,magical-functions-regexp . font-lock-function-name-face)
+;    (,magical-variable-regexp . font-lock-variable-name-face)
 ))
 
 ;; syntax table
@@ -90,18 +102,11 @@
 (setq magical-syntax-table
       (let ((synTable (make-syntax-table)))
         ;; C++ style comment “// ” & “/* ... */” 
-        ;(modify-syntax-entry ?\/ ". 124" synTable)
-        ;(modify-syntax-entry ?* ". 23b" synTable)
-        ;(modify-syntax-entry ?\n ">" synTable)
-        (if (string-match "XEmacs" emacs-version)
-            (progn(modify-syntax-entry ?\/ ". 1456" synTable)
-                  (modify-syntax-entry ?* ". 23" synTable)
-                  (modify-syntax-entry ?\n "> b" synTable))
-          (progn(modify-syntax-entry ?\/ ". 124" synTable)
-                (modify-syntax-entry ?* ". 23b" synTable)
-                (modify-syntax-entry ?\n ">" synTable)))
-        ;; double-quotes are for comments
-        ;(modify-syntax-entry ?\" "<" synTable)
+        (modify-syntax-entry ?\/ ". 124b" synTable)
+        (modify-syntax-entry ?* ". 23" synTable)
+        (modify-syntax-entry ?\n "> b" synTable)
+        ;; double-quotes are for comments -- fix this!
+        ;(modify-syntax-entry ?\" "<>" synTable)
         ;; single-quotes are for strings
         (modify-syntax-entry ?\' "\"" synTable)
         ;; so are back-single-quotes are for strings
@@ -136,6 +141,9 @@
   (setq magical-keywords-regexp nil)
   (setq magical-builtin-regexp nil)
   (setq magical-functions-regexp nil)
+
+  ;; run user hooks
+  (run-hooks 'magicalii-mode-hook)
 )
 
 (provide 'magicalii-mode)

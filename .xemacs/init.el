@@ -1,6 +1,19 @@
-
 (setq load-path (cons "~/.xemacs" load-path))
+(autoload 'matlab-mode "matlab" "Enter MATLAB mode." t)
+(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist))
+;; (autoload 'matlab-shell "matlab" "Interactive MATLAB mode." t)
 
+
+;; mouse-wheel: scroll
+(global-set-key 'button4 'scroll-down-one)
+(global-set-key 'button5 'scroll-up-one)
+
+;; on the mac two-finger scroll pad define these so they dont beep
+;;  this is probably close to what was meant...
+(global-set-key 'button6 'scroll-up-one)
+(global-set-key 'button7 'scroll-down-one)
+
+(global-set-key "\C-x\C-b" 'electric-buffer-list)
 ;	.emacs:
 ;	emacs startup file. 
 ;
@@ -24,12 +37,6 @@
 ;(custom-set-faces)
 
 ;=============================
-(setq-default show-trailing-whitespace t)
-
-;=============================
-; a minor mode to try to guess indentation offsets
-;(require 'dtrt-indent)
-;(dtrt-indent-mode 1) ; turn it on by default
 
 ;; ###########################################################################
 ;; The following two lines fix a problem that some people have. The original
@@ -45,39 +52,23 @@
 ;;;****************************************************************************
 ;(load-library "paren")
 ;;(setq inhibit-startup-message t)
-;;(setq text-mode-hook '(lambda () (auto-fill-mode 1)))
+;(setq text-mode-hook '(lambda () (auto-fill-mode 0)))
 ;;(setq-default fill-column 78)
 ;(setq blink-matching-paren-distance 12000)
 (setq line-number-mode t)
 (setq column-number-mode t)
+; (auto-fill-mode 0) ; doesnt' seem to change matlab mode :(
 
 ;; enable a Matlab mode
-(autoload 'matlab-mode "matlab" "Enter MATLAB mode." t)
-;(autoload 'matlab-mode "~/.xemacs/matlab.el" "Enter Octave mode." t)
-;; (autoload 'matlab-shell "matlab" "Interactive MATLAB mode." t)
+(autoload 'matlab-mode "~/.xemacs/matlab.el" "Enter Octave mode." t)
 (setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
-(setq matlab-indent-function t)
-(setq matlab-indent-level 2)
-(setq matlab-verify-on-save-flag nil) ; turn off auto-verify on save
-(defun my-matlab-mode-hook ()
-  (setq fill-column 176))               ; where auto-fill should wrap - never!
-(add-hook 'matlab-mode-hook 'my-matlab-mode-hook)
-
-
 (setq auto-mode-alist (cons '("\\.cu\\'" . c-mode) auto-mode-alist)) ;; CUDA
 (setq auto-mode-alist (cons '("\\.cl\\'" . c-mode) auto-mode-alist)) ;; OpenCL
 
-
-;(setq load-path (cons (expand-file-name "~/.xemacs") load-path))
-(require 'cmake-mode)
-(setq auto-mode-alist
-      (append '(("CMakeLists\\.txt\\'" . cmake-mode)
-                ("\\.cmake\\'" . cmake-mode))
-              auto-mode-alist))
-
-(require 'magicalii-mode)
-(add-to-list 'auto-mode-alist 
-             '(".*/maclib/*." . magicalii-mode))
+; untested:
+(defun my-matlab-mode-hook ()
+  (setq fill-column 176))		; where auto-fill should wrap - never!
+(add-hook 'matlab-mode-hook 'my-matlab-mode-hook)
 
 ;;(setq-default c-auto-newline t)
 ;;(setq-default c-argdecl-indent 0)
@@ -130,15 +121,6 @@
 ;;=============================================================================
 ;;                    scroll on  mouse wheel
 ;;=============================================================================
-
-;; mouse-wheel: scroll
-;(global-set-key 'button4 'scroll-down-one)
-;(global-set-key 'button5 'scroll-up-one)
-
-;; on the mac two-finger scroll pad define these so they dont beep
-;;  this is probably close to what was meant...
-;(global-set-key 'button6 'scroll-up-one)
-;(global-set-key 'button7 'scroll-down-one)
       
 ; scroll on wheel of mouses
 (define-key global-map 'button4
