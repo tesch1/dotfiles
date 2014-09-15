@@ -99,6 +99,7 @@
  '(matlab-indent-level 2)
  '(python-indent 2)
  '(python-indent-offset 2)
+ '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(toolbar-visible-p nil))
 (custom-set-faces
