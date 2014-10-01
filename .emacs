@@ -11,9 +11,12 @@
 (autoload 'go-mode "~/.xemacs/go-mode.el" t)
 (autoload 'lua-mode "~/.xemacs/lua-mode.el" t)
 
-(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
+;(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
+(setq auto-mode-alist (cons '("\\.m\\'" . objc-mode) auto-mode-alist)) ;; Objective-C
 (setq auto-mode-alist (cons '("\\.cu\\'" . c-mode) auto-mode-alist)) ;; CUDA
 (setq auto-mode-alist (cons '("\\.cl\\'" . c-mode) auto-mode-alist)) ;; OpenCL
+(setq auto-mode-alist (cons '("\\.vsh\\'" . c-mode) auto-mode-alist)) ;; Vertex Shader OpenGL
+(setq auto-mode-alist (cons '("\\.fsh\\'" . c-mode) auto-mode-alist)) ;; Fragment Shader OpenGL
 (setq auto-mode-alist (cons '("\\.html\\'" . web-mode) auto-mode-alist)) ;; templates
 (setq auto-mode-alist (cons '("\\.go\\'" . go-mode) auto-mode-alist)) ;; go
 (setq auto-mode-alist (cons '("\\.lua\\'" . lua-mode) auto-mode-alist)) ;; Lua
