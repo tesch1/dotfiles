@@ -10,6 +10,8 @@
 (autoload 'web-mode "~/.xemacs/web-mode.el" t)
 (autoload 'go-mode "~/.xemacs/go-mode.el" t)
 (autoload 'lua-mode "~/.xemacs/lua-mode.el" t)
+(autoload 'flex-mode "~/.xemacs/flex-mode.el" t)
+(autoload 'bison-mode "~/.xemacs/bison-mode.el" t)
 
 ;(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
 (setq auto-mode-alist (cons '("\\.m\\'" . objc-mode) auto-mode-alist)) ;; Objective-C
@@ -20,6 +22,7 @@
 (setq auto-mode-alist (cons '("\\.html\\'" . web-mode) auto-mode-alist)) ;; templates
 (setq auto-mode-alist (cons '("\\.go\\'" . go-mode) auto-mode-alist)) ;; go
 (setq auto-mode-alist (cons '("\\.lua\\'" . lua-mode) auto-mode-alist)) ;; Lua
+(setq auto-mode-alist (cons '("\\.cmn\\'" . fortran-mode) auto-mode-alist)) ;; fortran common
 
 ;
 ; disable auto autofilling in matlab mode (?)
