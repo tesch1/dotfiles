@@ -437,7 +437,9 @@ HIGH-PT goes toward (point-min), LOW-PT goes toward (point-max)
 save excursion is done higher up, so i dont concern myself here.
 "
   (let ((pt (point)))
-    (let ((success nil) (count 1) (done nil))
+    (let ((success nil)
+          (count 1)
+          (done nil))
       ;; loop until open brace found, that is not in comment or string literal
       (while (and (not done)
 		  (re-search-backward "[^%]{" high-pt t count)) ;find nearest
@@ -445,16 +447,17 @@ save excursion is done higher up, so i dont concern myself here.
 	(goto-char (match-end 0))
 	(if (or (bison--within-c-comment-p)
 		(bison--within-string-p))
-	    
 	    (setq count (+ count 1))
 	  (progn
 	    (setq success t)
 	    (setq done t))))
-	
       (if success
 	  (let ((end-pt
 		 (condition-case nil
-		     (progn (forward-sexp) (point))
+		     (progn
+                       (goto-char (1- (point)))
+                       (forward-sexp)
+                       (point))
 		   (error nil))))
 	    (if end-pt
 		(if (> end-pt low-pt)
@@ -462,7 +465,6 @@ save excursion is done higher up, so i dont concern myself here.
 		  nil)
 	      t))			; if no sexp close brace, then w/in
 	nil))))
-
 
 (defun bison--bison-decl-opener-p (bol eol)
   "return t if the current line is a bison declaration starter
