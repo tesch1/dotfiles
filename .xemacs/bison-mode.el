@@ -85,7 +85,7 @@
 			   "%left" "%right" "%nonassoc" "%expect")
   "commands which can declare a token or state type")
 
-(defvar bison--word-constituent-re "\\(\\sw\\|_\\)")
+(defvar bison--word-constituent-re "\\(\\sw\\|_\\)\\|\\('.'\\)")
 (defvar bison--production-re
   (concat "^" bison--word-constituent-re "+:"))
 
@@ -351,8 +351,7 @@ either the beginnings of another production or the end of the grammar rules"
 		       (t nil))))
       (if bound
 	  (let ((sval (re-search-forward
-		       (concat "\\(\\s \\|" ;; whitespace or
-					    ;; comments
+		       (concat "\\(\\s \\|" ;; whitespace or comments
 			       (regexp-quote comment-start)
 			       "\\(.\\|\n\\)*" ;; comment body
 			       (regexp-quote comment-end)
@@ -378,7 +377,6 @@ ENDER"
   "return t if the point is within a c comment delimited by \"/*\" \"*/\""
   (bison--within-some-sexp-p (regexp-quote comment-start)
 			     (regexp-quote comment-end)))
-	   
 
 (defun bison--within-string-p (&optional point)
   "
@@ -388,12 +386,10 @@ found."
 	(in-p nil))
     (save-excursion
       (goto-char (point-min))
-
       (while (re-search-forward "[^\\]\"" point t)
 	(setq in-p (not in-p)))
-
       in-p)))
-       
+
 ;;; bison--within-braced-c-expression-p
 ;;; new and improved, no more recursion, does not break when literal strings
 ;;; contain un-matched braces
@@ -506,9 +502,17 @@ this procedure will fail if it is in a production header"
 alternative"
   (save-excursion
     (goto-char bol)
-    (if (search-forward "|" eol t)
+    (if (re-search-forward "[^']|" eol t) ; todo: should also match | at bol
 	(not (bison--within-braced-c-expression-p section))
       nil)))
+
+(defun bpa ()
+  (interactive)
+  (let ((bol (save-excursion (beginning-of-line) (point)))
+        (eol (save-excursion (end-of-line) (point)))
+        (section (bison--section-p)))
+    (bison--production-alternative-p bol eol section)))
+  
 
 
 ;; *************** indent functions ***************
@@ -605,7 +609,7 @@ assumes indenting a new line, i.e. at column 0
        ;; if you are a line of whitespace, let indent-new-line take care of it
        (ws-line
 	(bison-indent-new-line c-sexp))
-       
+       ; section PRE-C
        ((= section bison--pre-c-decls-section)
 	;; leave things alone
 	)
@@ -618,7 +622,7 @@ assumes indenting a new line, i.e. at column 0
 		(back-to-indentation)
 		(just-no-space)
 		(funcall reset-pt)))))
-       
+       ; section DECLS
        ((= section bison--bison-decls-section)
 	(let ((opener (bison--bison-decl-opener-p bol eol)))
 	  (cond
@@ -656,7 +660,7 @@ assumes indenting a new line, i.e. at column 0
 	    (funcall reset-pt))
 	   (c-sexp
 	    (bison--handle-indent-c-sexp section 0 bol))
-	   (t
+	   (t ; default
 	    (back-to-indentation)
 	    ;; only tab in names, leave comments alone
 	    (cond (;; put word-constiuents in bison-decl-token-column
@@ -674,6 +678,7 @@ assumes indenting a new line, i.e. at column 0
 		  ;; else do nothing
 		  )
 	    (funcall reset-pt)))))
+       ; GRAMMAR
        ((= section bison--grammar-rules-section)
 	(cond
 	 ((bison--production-opener-p bol eol)
