@@ -10,13 +10,19 @@
 (autoload 'web-mode "~/.xemacs/web-mode.el" t)
 (autoload 'go-mode "~/.xemacs/go-mode.el" t)
 (autoload 'lua-mode "~/.xemacs/lua-mode.el" t)
+(autoload 'flex-mode "~/.xemacs/flex-mode.el" t)
+(autoload 'bison-mode "~/.xemacs/bison-mode.el" t)
 
-(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
+;(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
+(setq auto-mode-alist (cons '("\\.m\\'" . objc-mode) auto-mode-alist)) ;; Objective-C
 (setq auto-mode-alist (cons '("\\.cu\\'" . c-mode) auto-mode-alist)) ;; CUDA
 (setq auto-mode-alist (cons '("\\.cl\\'" . c-mode) auto-mode-alist)) ;; OpenCL
+(setq auto-mode-alist (cons '("\\.vsh\\'" . c-mode) auto-mode-alist)) ;; Vertex Shader OpenGL
+(setq auto-mode-alist (cons '("\\.fsh\\'" . c-mode) auto-mode-alist)) ;; Fragment Shader OpenGL
 (setq auto-mode-alist (cons '("\\.html\\'" . web-mode) auto-mode-alist)) ;; templates
 (setq auto-mode-alist (cons '("\\.go\\'" . go-mode) auto-mode-alist)) ;; go
 (setq auto-mode-alist (cons '("\\.lua\\'" . lua-mode) auto-mode-alist)) ;; Lua
+(setq auto-mode-alist (cons '("\\.cmn\\'" . fortran-mode) auto-mode-alist)) ;; fortran common
 
 ;
 ; disable auto autofilling in matlab mode (?)
@@ -25,8 +31,8 @@
   (setq fill-column 176))		; where auto-fill should wrap - never!
 (add-hook 'matlab-mode-hook 'my-matlab-mode-hook)
 
-(add-to-list 'auto-mode-alist 
-   '(".*/maclib/*." . magicalii-mode))
+(add-to-list 'auto-mode-alist '(".*/maclib/*." . magicalii-mode))
+(add-to-list 'auto-mode-alist '("\\.y\\'" . bison-mode))
 
 ; Add cmake listfile names to the mode list.
 (setq auto-mode-alist
@@ -84,10 +90,10 @@
 (setq mac-option-modifier nil)
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(c-basic-offset 2)
  '(c-tab-always-indent nil)
@@ -104,12 +110,11 @@
  '(tool-bar-mode nil)
  '(toolbar-visible-p nil))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil  :weight bold))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "apple" :family "Monaco"))))
  '(font-lock-comment-face ((t (:foreground "Yellow"))))
- '(font-lock-string-face ((t (:foreground "Orange"))))
- )
+ '(font-lock-string-face ((t (:foreground "Orange")))))
 
