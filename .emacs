@@ -13,8 +13,10 @@
 (autoload 'flex-mode "~/.xemacs/flex-mode.el" t)
 (autoload 'bison-mode "~/.xemacs/bison-mode.el" t)
 
-;(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
-(setq auto-mode-alist (cons '("\\.m\\'" . objc-mode) auto-mode-alist)) ;; Objective-C
+(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
+;(setq auto-mode-alist (cons '("\\.m\\'" . objc-mode) auto-mode-alist)) ;; Objective-C
+(setq auto-mode-alist (cons '("\\.mm\\'" . objc-mode) auto-mode-alist)) ;; Objective-C++
+(setq auto-mode-alist (cons '("\\.swg\\'" . c-mode) auto-mode-alist)) ;; swig
 (setq auto-mode-alist (cons '("\\.cu\\'" . c-mode) auto-mode-alist)) ;; CUDA
 (setq auto-mode-alist (cons '("\\.cl\\'" . c-mode) auto-mode-alist)) ;; OpenCL
 (setq auto-mode-alist (cons '("\\.vsh\\'" . c-mode) auto-mode-alist)) ;; Vertex Shader OpenGL
@@ -104,8 +106,8 @@
  '(inhibit-startup-screen t)
  '(lua-indent-level 2)
  '(matlab-indent-level 2)
- '(python-indent 2)
- '(python-indent-offset 2)
+ '(python-indent 4)
+ '(python-indent-offset 4)
  '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(toolbar-visible-p nil))

@@ -451,7 +451,7 @@ save excursion is done higher up, so i dont concern myself here.
 	  (let ((end-pt
 		 (condition-case nil
 		     (progn
-                       (goto-char (1- (point)))
+                       (backward-char)
                        (forward-sexp)
                        (point))
 		   (error nil))))

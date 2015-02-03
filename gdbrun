@@ -1,0 +1,8 @@
+#!/bin/sh
+
+
+
+A=( $* )
+echo r ${A[@]:1} > /tmp/gdbcmd
+# cat /tmp/gdbcmd
+gdb -x /tmp/gdbcmd $1
