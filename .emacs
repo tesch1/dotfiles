@@ -12,6 +12,12 @@
 (autoload 'lua-mode "~/.xemacs/lua-mode.el" t)
 (autoload 'flex-mode "~/.xemacs/flex-mode.el" t)
 (autoload 'bison-mode "~/.xemacs/bison-mode.el" t)
+;(autoload 'bruker-mode "~/.xemacs/bruker-mode.el" t)
+;(autoload 'wolfram-mode "~/.xemacs/wolfram-mode.el" nil t)
+(autoload 'mathematica-mode "~/.xemacs/mathematica.el" nil t)
+
+(add-to-list 'load-path "~/.emacs.d/")
+(require 'bruker-mode)
 
 (setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
 ;(setq auto-mode-alist (cons '("\\.m\\'" . objc-mode) auto-mode-alist)) ;; Objective-C
@@ -98,6 +104,7 @@
   ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(c-basic-offset 2)
+ '(c-offsets-alist (quote ((innamespace . 0))))
  '(c-tab-always-indent nil)
  '(column-number-mode t)
  '(custom-enabled-themes (quote (wheatgrass)))
@@ -106,7 +113,7 @@
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(lua-indent-level 2)
- '(matlab-indent-level 2)
+ '(matlab-indent-level 4)
  '(python-indent 4)
  '(python-indent-offset 4)
  '(show-paren-mode t)
@@ -122,5 +129,6 @@
   ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 122 :width normal :foundry "bitstream" :family "Courier 10 Pitch"))))
  '(font-lock-comment-face ((t (:foreground "Yellow"))))
+ '(font-lock-keyword-face ((((class color) (min-colors 88) (background dark)) (:foreground "gray"))))
  '(font-lock-string-face ((t (:foreground "Orange")))))
 
