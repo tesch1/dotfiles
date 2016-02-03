@@ -3,11 +3,11 @@
 --blank-lines-after-procedures
 -bs
 --cuddle-do-while
---line-length90
---comment-line-length120
+--line-length120
+--comment-line-length140
 //--ignore-newlines
 --honour-newlines
---indent-level2
+--indent-level4
 --no-tabs
 --linux-style
 -brs

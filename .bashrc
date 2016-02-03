@@ -5,6 +5,9 @@
 export PAGER=less
 export PATH=${PATH}:${HOME}/bin:${HOME}/local/bin
 
+export PATH=${PATH}:/Developer/NVIDIA/CUDA-7.0/bin
+export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.0/lib:${DYLD_LIBRARY_PATH}
+
 #export vnmruser=$HOME/CMRRpack2
 #export vnmrsystem=$HOME/Documents/umn/vnmrj_3.2
 
@@ -23,4 +26,7 @@ alias more=less
 
 PS1='\h:\W \u$ '
 shopt -s checkwinsize
+
+
+alias mkpwd='openssl rand -base64 6'
 

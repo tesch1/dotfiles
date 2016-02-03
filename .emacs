@@ -7,6 +7,7 @@
 (autoload 'matlab-mode "~/.xemacs/matlab.el" "Enter Octave mode." t)
 (autoload 'cmake-mode "~/.xemacs/cmake-mode.el" t)
 (autoload 'magicalii-mode "~/.xemacs/magicalii-mode.el" t)
+(autoload 'bruker-mode "~/.xemacs/bruker-mode.el" t)
 (autoload 'web-mode "~/.xemacs/web-mode.el" t)
 (autoload 'go-mode "~/.xemacs/go-mode.el" t)
 (autoload 'lua-mode "~/.xemacs/lua-mode.el" t)
@@ -26,22 +27,23 @@
 (setq auto-mode-alist (cons '("\\.lua\\'" . lua-mode) auto-mode-alist)) ;; Lua
 (setq auto-mode-alist (cons '("\\.cmn\\'" . fortran-mode) auto-mode-alist)) ;; fortran common
 
-;
-; disable auto autofilling in matlab mode (?)
-;
-(defun my-matlab-mode-hook ()
-  (setq fill-column 176))		; where auto-fill should wrap - never!
-(add-hook 'matlab-mode-hook 'my-matlab-mode-hook)
-
-(add-to-list 'auto-mode-alist '(".*/maclib/*." . magicalii-mode))
-(add-to-list 'auto-mode-alist '("\\.y\\'" . bison-mode))
-
 ; Add cmake listfile names to the mode list.
 (setq auto-mode-alist
   (append
    '(("CMakeLists\\.txt\\'" . cmake-mode))
    '(("\\.cmake\\'" . cmake-mode))
    auto-mode-alist))
+
+(add-to-list 'auto-mode-alist '(".*/maclib/*." . magicalii-mode))
+(add-to-list 'auto-mode-alist '("\\.ppg\\'" . bruker-mode))
+(add-to-list 'auto-mode-alist '("\\.y\\'" . bison-mode))
+
+;
+; disable auto autofilling in matlab mode (?)
+;
+(defun my-matlab-mode-hook ()
+  (setq fill-column 176))		; where auto-fill should wrap - never!
+(add-hook 'matlab-mode-hook 'my-matlab-mode-hook)
 
 ;; uniquify.el is a helper routine to help give buffer names a better unique name.
 (when (load "uniquify" 'NOERROR)
@@ -92,16 +94,18 @@
 (setq mac-option-modifier nil)
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(c-basic-offset 2)
+ '(c-offsets-alist (quote ((innamespace . 0))))
  '(c-tab-always-indent nil)
  '(column-number-mode t)
  '(custom-enabled-themes (quote (wheatgrass)))
- '(fortran-line-length 500)
+ '(fortran-line-length 120)
  '(frame-background-mode (quote dark))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
@@ -110,17 +114,14 @@
  '(python-indent 4)
  '(python-indent-offset 4)
  '(show-paren-mode t)
- '(spice-output-local "Gnucap")
- '(spice-simulator "Gnucap")
- '(spice-waveform-viewer "Gwave")
  '(tool-bar-mode nil)
  '(toolbar-visible-p nil))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 122 :width normal :foundry "bitstream" :family "Courier 10 Pitch"))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "apple" :family "Monaco"))))
  '(font-lock-comment-face ((t (:foreground "Yellow"))))
  '(font-lock-string-face ((t (:foreground "Orange")))))
 
