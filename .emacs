@@ -13,6 +13,12 @@
 (autoload 'lua-mode "~/.xemacs/lua-mode.el" t)
 (autoload 'flex-mode "~/.xemacs/flex-mode.el" t)
 (autoload 'bison-mode "~/.xemacs/bison-mode.el" t)
+;(autoload 'bruker-mode "~/.xemacs/bruker-mode.el" t)
+;(autoload 'wolfram-mode "~/.xemacs/wolfram-mode.el" nil t)
+(autoload 'mathematica-mode "~/.xemacs/mathematica.el" nil t)
+
+(add-to-list 'load-path "~/.emacs.d/")
+(require 'bruker-mode)
 
 (setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
 ;(setq auto-mode-alist (cons '("\\.m\\'" . objc-mode) auto-mode-alist)) ;; Objective-C
@@ -110,7 +116,7 @@
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(lua-indent-level 2)
- '(matlab-indent-level 2)
+ '(matlab-indent-level 4)
  '(python-indent 4)
  '(python-indent-offset 4)
  '(show-paren-mode t)
@@ -123,5 +129,6 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "apple" :family "Monaco"))))
  '(font-lock-comment-face ((t (:foreground "Yellow"))))
+ '(font-lock-keyword-face ((((class color) (min-colors 88) (background dark)) (:foreground "gray"))))
  '(font-lock-string-face ((t (:foreground "Orange")))))
 
