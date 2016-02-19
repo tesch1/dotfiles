@@ -13,12 +13,11 @@
 (autoload 'lua-mode "~/.xemacs/lua-mode.el" t)
 (autoload 'flex-mode "~/.xemacs/flex-mode.el" t)
 (autoload 'bison-mode "~/.xemacs/bison-mode.el" t)
-;(autoload 'bruker-mode "~/.xemacs/bruker-mode.el" t)
 ;(autoload 'wolfram-mode "~/.xemacs/wolfram-mode.el" nil t)
-(autoload 'mathematica-mode "~/.xemacs/mathematica.el" nil t)
+;(autoload 'mathematica-mode "~/.xemacs/mathematica.el" nil t)
 
-(add-to-list 'load-path "~/.emacs.d/")
-(require 'bruker-mode)
+;(add-to-list 'load-path "~/.xemacs/")
+;(require 'bruker-mode)
 
 (setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
 ;(setq auto-mode-alist (cons '("\\.m\\'" . objc-mode) auto-mode-alist)) ;; Objective-C
