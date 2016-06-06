@@ -5,7 +5,7 @@
 export PAGER=less
 export PATH=${PATH}:${HOME}/bin:${HOME}/local/bin
 export XWINNMRHOME=/opt/PV5.1
-export XWINNMRHOME=${HOME}/src/pv5
+export XWINNMRHOME=${HOME}/src/pv51
 
 # use newer compilers on CentOS 6
 if [ -d "/usr/lib64/openmpi/bin" ]; then
@@ -20,6 +20,11 @@ fi
 # use newer compilers on CentOS 6
 if [ -f "/opt/rh/devtoolset-3/enable" ]; then
     source /opt/rh/devtoolset-3/enable
+fi
+
+# use newer python
+if [ -f "/opt/rh/python27/enable" ]; then
+    source /opt/rh/python27/enable
 fi
 
 alias ls="ls -F"

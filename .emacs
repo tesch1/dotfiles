@@ -14,7 +14,7 @@
 (autoload 'bison-mode "~/.xemacs/bison-mode.el" t)
 ;(autoload 'bruker-mode "~/.xemacs/bruker-mode.el" t)
 ;(autoload 'wolfram-mode "~/.xemacs/wolfram-mode.el" nil t)
-(autoload 'mathematica-mode "~/.xemacs/mathematica.el" nil t)
+;(autoload 'mathematica-mode "~/.xemacs/mathematica.el" nil t)
 
 (add-to-list 'load-path "~/.emacs.d/")
 (require 'bruker-mode)
@@ -42,6 +42,8 @@
 (add-to-list 'auto-mode-alist '(".*/maclib/*." . magicalii-mode))
 (add-to-list 'auto-mode-alist '("\\.y\\'" . bison-mode))
 
+(add-to-list 'auto-mode-alist '(".*/SConstruct*" . python-mode))
+
 ; Add cmake listfile names to the mode list.
 (setq auto-mode-alist
   (append
@@ -62,7 +64,9 @@
   ;(print (concat "buffer-name     = " (buffer-name)))
   (when (and (buffer-file-name) (string-match "CMakeLists.txt" (buffer-name)))
     ;(setq file-name (file-name-nondirectory (buffer-file-name)))
-    (setq parent-dir (file-name-nondirectory (directory-file-name (file-name-directory (buffer-file-name)))))
+    (setq parent-dir (file-name-nondirectory 
+                      (directory-file-name 
+                       (file-name-directory (buffer-file-name)))))
     ;(print (concat "parent-dir = " parent-dir))
     (setq new-buffer-name (concat "CMAKE-" parent-dir))
     ;(print (concat "new-buffer-name= " new-buffer-name))
