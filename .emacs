@@ -7,42 +7,37 @@
 (autoload 'matlab-mode "~/.xemacs/matlab.el" "Enter Octave mode." t)
 (autoload 'cmake-mode "~/.xemacs/cmake-mode.el" t)
 (autoload 'magicalii-mode "~/.xemacs/magicalii-mode.el" t)
+(autoload 'bruker-mode "~/.xemacs/bruker-mode.el" t)
 (autoload 'web-mode "~/.xemacs/web-mode.el" t)
 (autoload 'go-mode "~/.xemacs/go-mode.el" t)
 (autoload 'lua-mode "~/.xemacs/lua-mode.el" t)
 (autoload 'flex-mode "~/.xemacs/flex-mode.el" t)
 (autoload 'bison-mode "~/.xemacs/bison-mode.el" t)
-;(autoload 'bruker-mode "~/.xemacs/bruker-mode.el" t)
 ;(autoload 'wolfram-mode "~/.xemacs/wolfram-mode.el" nil t)
 ;(autoload 'mathematica-mode "~/.xemacs/mathematica.el" nil t)
 
-(add-to-list 'load-path "~/.emacs.d/")
-(require 'bruker-mode)
+;(add-to-list 'load-path "~/.xemacs/")
+;(require 'bruker-mode)
 
 (setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
 ;(setq auto-mode-alist (cons '("\\.m\\'" . objc-mode) auto-mode-alist)) ;; Objective-C
 (setq auto-mode-alist (cons '("\\.mm\\'" . objc-mode) auto-mode-alist)) ;; Objective-C++
+(setq auto-mode-alist (cons '("\\.inl\\'" . c++-mode) auto-mode-alist)) ;; C++
 (setq auto-mode-alist (cons '("\\.swg\\'" . c-mode) auto-mode-alist)) ;; swig
 (setq auto-mode-alist (cons '("\\.cu\\'" . c-mode) auto-mode-alist)) ;; CUDA
 (setq auto-mode-alist (cons '("\\.cl\\'" . c-mode) auto-mode-alist)) ;; OpenCL
 (setq auto-mode-alist (cons '("\\.vsh\\'" . c-mode) auto-mode-alist)) ;; Vertex Shader OpenGL
 (setq auto-mode-alist (cons '("\\.fsh\\'" . c-mode) auto-mode-alist)) ;; Fragment Shader OpenGL
+(setq auto-mode-alist (cons '("\\.glsl\\'" . c-mode) auto-mode-alist)) ;; OpenGL Shader Language
 (setq auto-mode-alist (cons '("\\.html\\'" . web-mode) auto-mode-alist)) ;; templates
 (setq auto-mode-alist (cons '("\\.go\\'" . go-mode) auto-mode-alist)) ;; go
 (setq auto-mode-alist (cons '("\\.lua\\'" . lua-mode) auto-mode-alist)) ;; Lua
 (setq auto-mode-alist (cons '("\\.cmn\\'" . fortran-mode) auto-mode-alist)) ;; fortran common
 
-;
-; disable auto autofilling in matlab mode (?)
-;
-(defun my-matlab-mode-hook ()
-  (setq fill-column 176))		; where auto-fill should wrap - never!
-(add-hook 'matlab-mode-hook 'my-matlab-mode-hook)
-
-(add-to-list 'auto-mode-alist '(".*/maclib/*." . magicalii-mode))
-(add-to-list 'auto-mode-alist '("\\.y\\'" . bison-mode))
-
 (add-to-list 'auto-mode-alist '(".*/SConstruct*" . python-mode))
+(add-to-list 'auto-mode-alist '(".*/maclib/*." . magicalii-mode))
+(add-to-list 'auto-mode-alist '("\\.ppg\\'" . bruker-mode))
+(add-to-list 'auto-mode-alist '("\\.y\\'" . bison-mode))
 
 ; Add cmake listfile names to the mode list.
 (setq auto-mode-alist
@@ -50,6 +45,13 @@
    '(("CMakeLists\\.txt\\'" . cmake-mode))
    '(("\\.cmake\\'" . cmake-mode))
    auto-mode-alist))
+
+;
+; disable auto autofilling in matlab mode (?)
+;
+(defun my-matlab-mode-hook ()
+  (setq fill-column 176))		; where auto-fill should wrap - never!
+(add-hook 'matlab-mode-hook 'my-matlab-mode-hook)
 
 ;; uniquify.el is a helper routine to help give buffer names a better unique name.
 (when (load "uniquify" 'NOERROR)
@@ -102,17 +104,18 @@
 (setq mac-option-modifier nil)
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(c-basic-offset 2)
- '(c-offsets-alist (quote ((innamespace . 0))))
+ '(c-offsets-alist (quote ((substatement-open . 0) (innamespace . 0))))
  '(c-tab-always-indent nil)
  '(column-number-mode t)
  '(custom-enabled-themes (quote (wheatgrass)))
- '(fortran-line-length 500)
+ '(fortran-line-length 120)
  '(frame-background-mode (quote dark))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
@@ -121,17 +124,14 @@
  '(python-indent 4)
  '(python-indent-offset 4)
  '(show-paren-mode t)
- '(spice-output-local "Gnucap")
- '(spice-simulator "Gnucap")
- '(spice-waveform-viewer "Gwave")
  '(tool-bar-mode nil)
  '(toolbar-visible-p nil))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 122 :width normal :foundry "bitstream" :family "Courier 10 Pitch"))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "apple" :family "Monaco"))))
  '(font-lock-comment-face ((t (:foreground "Yellow"))))
  '(font-lock-keyword-face ((((class color) (min-colors 88) (background dark)) (:foreground "gray"))))
  '(font-lock-string-face ((t (:foreground "Orange")))))
