@@ -22,11 +22,13 @@
 (setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
 ;(setq auto-mode-alist (cons '("\\.m\\'" . objc-mode) auto-mode-alist)) ;; Objective-C
 (setq auto-mode-alist (cons '("\\.mm\\'" . objc-mode) auto-mode-alist)) ;; Objective-C++
+(setq auto-mode-alist (cons '("\\.inl\\'" . c++-mode) auto-mode-alist)) ;; C++
 (setq auto-mode-alist (cons '("\\.swg\\'" . c-mode) auto-mode-alist)) ;; swig
 (setq auto-mode-alist (cons '("\\.cu\\'" . c-mode) auto-mode-alist)) ;; CUDA
 (setq auto-mode-alist (cons '("\\.cl\\'" . c-mode) auto-mode-alist)) ;; OpenCL
 (setq auto-mode-alist (cons '("\\.vsh\\'" . c-mode) auto-mode-alist)) ;; Vertex Shader OpenGL
 (setq auto-mode-alist (cons '("\\.fsh\\'" . c-mode) auto-mode-alist)) ;; Fragment Shader OpenGL
+(setq auto-mode-alist (cons '("\\.glsl\\'" . c-mode) auto-mode-alist)) ;; OpenGL Shader Language
 (setq auto-mode-alist (cons '("\\.html\\'" . web-mode) auto-mode-alist)) ;; templates
 (setq auto-mode-alist (cons '("\\.go\\'" . go-mode) auto-mode-alist)) ;; go
 (setq auto-mode-alist (cons '("\\.lua\\'" . lua-mode) auto-mode-alist)) ;; Lua
@@ -106,7 +108,7 @@
  '(ansi-color-names-vector
    ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(c-basic-offset 2)
- '(c-offsets-alist (quote ((innamespace . 0))))
+ '(c-offsets-alist (quote ((substatement-open . 0) (innamespace . 0))))
  '(c-tab-always-indent nil)
  '(column-number-mode t)
  '(custom-enabled-themes (quote (wheatgrass)))
