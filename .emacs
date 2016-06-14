@@ -19,21 +19,20 @@
 ;(add-to-list 'load-path "~/.emacs.d/")
 ;(require 'bruker-mode)
 
-(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) ;; Matlab
-;(setq auto-mode-alist (cons '("\\.m\\'" . objc-mode) auto-mode-alist)) ;; Objective-C
-(setq auto-mode-alist (cons '("\\.mm\\'" . objc-mode) auto-mode-alist)) ;; Objective-C++
-(setq auto-mode-alist (cons '("\\.inl\\'" . c++-mode) auto-mode-alist)) ;; C++
-(setq auto-mode-alist (cons '("\\.swg\\'" . c-mode) auto-mode-alist)) ;; swig
-(setq auto-mode-alist (cons '("\\.cu\\'" . c-mode) auto-mode-alist)) ;; CUDA
-(setq auto-mode-alist (cons '("\\.cl\\'" . c-mode) auto-mode-alist)) ;; OpenCL
-(setq auto-mode-alist (cons '("\\.vsh\\'" . c-mode) auto-mode-alist)) ;; Vertex Shader OpenGL
-(setq auto-mode-alist (cons '("\\.fsh\\'" . c-mode) auto-mode-alist)) ;; Fragment Shader OpenGL
-(setq auto-mode-alist (cons '("\\.glsl\\'" . c-mode) auto-mode-alist)) ;; OpenGL Shader Language
-(setq auto-mode-alist (cons '("\\.html\\'" . web-mode) auto-mode-alist)) ;; templates
-(setq auto-mode-alist (cons '("\\.go\\'" . go-mode) auto-mode-alist)) ;; go
-(setq auto-mode-alist (cons '("\\.lua\\'" . lua-mode) auto-mode-alist)) ;; Lua
-(setq auto-mode-alist (cons '("\\.cmn\\'" . fortran-mode) auto-mode-alist)) ;; fortran common
-
+(add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode)) ;; Matlab
+;(add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode)) ;; Objective-C
+(add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode)) ;; Objective-C++
+(add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode)) ;; C++
+(add-to-list 'auto-mode-alist '("\\.swg\\'" . c-mode)) ;; swig
+(add-to-list 'auto-mode-alist '("\\.cu\\'" . c-mode)) ;; CUDA
+(add-to-list 'auto-mode-alist '("\\.cl\\'" . c-mode)) ;; OpenCL
+(add-to-list 'auto-mode-alist '("\\.vsh\\'" . c-mode)) ;; Vertex Shader OpenGL
+(add-to-list 'auto-mode-alist '("\\.fsh\\'" . c-mode)) ;; Fragment Shader OpenGL
+(add-to-list 'auto-mode-alist '("\\.glsl\\'" . c-mode)) ;; OpenGL Shader Language
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode)) ;; templates
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode)) ;; go
+(add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-mode)) ;; Lua
+(add-to-list 'auto-mode-alist '("\\.cmn\\'" . fortran-mode)) ;; fortran common
 (add-to-list 'auto-mode-alist '(".*/SConstruct*" . python-mode))
 (add-to-list 'auto-mode-alist '(".*/maclib/*." . magicalii-mode))
 (add-to-list 'auto-mode-alist '("\\.ppg\\'" . bruker-mode))
@@ -78,6 +77,20 @@
 
 (add-hook 'cmake-mode-hook (function cmake-rename-buffer))
 
+;; turbobadger "style"
+(defun maybe-turbobadger-offset ()
+  (interactive)
+; (message "TURBO BADGER style???")
+  (if (string-match "turbobadger" buffer-file-name)
+      (progn (message "TURBO BADGER style!")
+             (setq c-basic-offset 4)
+             (setq tab-width 4)
+             (setq indent-tabs-mode t)
+             )))
+(add-hook 'c++-mode-hook 'maybe-turbobadger-offset)
+(add-hook 'c-mode-hook 'maybe-turbobadger-offset)
+
+;; setup the modeline nicely
 (setq line-number-mode t)
 (setq column-number-mode t)
 
