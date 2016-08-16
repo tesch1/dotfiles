@@ -89,7 +89,8 @@
              )))
 (add-hook 'c++-mode-hook 'maybe-turbobadger-offset)
 (add-hook 'c-mode-hook 'maybe-turbobadger-offset)
-(define-key fundamental-mode-map (kbd "TAB") 'self-insert-command)
+(if (boundp 'fundamental-mode-map)
+    (define-key fundamental-mode-map (kbd "TAB") 'self-insert-command))
 
 ;; setup the modeline nicely
 (setq line-number-mode t)
