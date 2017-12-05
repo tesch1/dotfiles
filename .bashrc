@@ -4,6 +4,10 @@
 
 export PAGER=less
 export PATH=${PATH}:${HOME}/bin:${HOME}/local/bin
+if command -v emacs >/dev/null 2>&1 ; then
+    export EDITOR="emacs -nw"
+    export GIT_EDITOR="emacs -nw"
+fi
 export XWINNMRHOME=/opt/PV5.1
 export XWINNMRHOME=${HOME}/src/pv51
 
@@ -44,3 +48,11 @@ shopt -s checkwinsize
 
 alias mkpwd='openssl rand -base64 6'
 
+export RVA_CRED=$HOME/Documents/rva/rva_credentials.conf
+
+
+# added by travis gem
+[ -f /Users/tesch/.travis/travis.sh ] && source /Users/tesch/.travis/travis.sh
+
+# google cloud sdk
+[ -f /Users/tesch/share/google-cloud-sdk/path.bash.inc ] && source /Users/tesch/share/google-cloud-sdk/path.bash.inc
