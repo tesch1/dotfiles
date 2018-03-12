@@ -12,11 +12,13 @@
 (autoload 'lua-mode "~/.emacs.d/lua-mode.el" t)
 (autoload 'flex-mode "~/.emacs.d/flex-mode.el" t)
 (autoload 'bison-mode "~/.emacs.d/bison-mode.el" t)
+(autoload 'rust-mode "~/.emacs.d/rust-mode.el" t)
 ;(autoload 'wolfram-mode "~/.emacs.d/wolfram-mode.el" nil t)
 ;(autoload 'mathematica-mode "~/.emacs.d/mathematica.el" nil t)
 
 ;(add-to-list 'load-path "~/.emacs.d/")
 ;(require 'bruker-mode)
+;(require 'rust-mode)
 
 ;; setup MELPA
 (require 'package)
@@ -51,6 +53,7 @@
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode)) ;; Objective-C++
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode)) ;; C++
 (add-to-list 'auto-mode-alist '("\\.swg\\'" . c-mode)) ;; swig
+(add-to-list 'auto-mode-alist '("\\.ru\\'" . rust-mode)) ;; rust
 (add-to-list 'auto-mode-alist '("\\.cu\\'" . c-mode)) ;; CUDA
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . c-mode)) ;; OpenCL
 (add-to-list 'auto-mode-alist '("\\.vsh\\'" . c-mode)) ;; Vertex Shader OpenGL
@@ -104,24 +107,35 @@
 
 (add-hook 'cmake-mode-hook (function cmake-rename-buffer))
 
-;; turbobadger "style"
-(defun maybe-turbobadger-offset ()
+;; foursptab "style"
+(defun set-foursptab-style ()
+  (progn (message "FOUR SPACE TAB style!")
+         (setq c-basic-offset 4)
+         (setq tab-width 4)
+         (setq indent-tabs-mode t)
+         ))
+(defun maybe-foursptab-offset ()
   (interactive)
-; (message "TURBO BADGER style???")
-  (if (string-match "turbobadger" buffer-file-name)
-      (progn (message "TURBO BADGER style!")
-             (setq c-basic-offset 4)
-             (setq tab-width 4)
-             (setq indent-tabs-mode t)
-             )))
-(add-hook 'c++-mode-hook 'maybe-turbobadger-offset)
-(add-hook 'c-mode-hook 'maybe-turbobadger-offset)
+  (if (or (string-match "turbobadger" buffer-file-name)
+          (string-match "litehtml/src" buffer-file-name))
+      (set-foursptab-style))
+  )
+(defun maybe-foursptabtb-offset ()
+  (interactive)
+  (if (or (string-match "turbobadger" buffer-file-name)
+          (string-match "litehtml/src" buffer-file-name))
+      (set-foursptab-style))
+  )
+(add-hook 'c++-mode-hook 'maybe-foursptab-offset)
+(add-hook 'c-mode-hook 'maybe-foursptab-offset)
+(add-hook 'text-mode 'maybe-foursptabtb-offset)
 (if (boundp 'fundamental-mode-map)
     (define-key fundamental-mode-map (kbd "TAB") 'self-insert-command))
 
 ;; setup the modeline nicely
 (setq line-number-mode t)
 (setq column-number-mode t)
+(setq fill-column 72)
 
 ;; mouse-wheel: scroll
 ;(global-set-key 'button4 'scroll-down-one)
@@ -157,6 +171,9 @@
  '(c-tab-always-indent nil)
  '(column-number-mode t)
  '(custom-enabled-themes (quote (wheatgrass)))
+ '(exec-path
+   (quote
+    ("/usr/bin" "/bin" "/usr/sbin" "/opt/local/bin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/bin-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec" "/Applications/Emacs.app/Contents/MacOS/bin")))
  '(fortran-line-length 120)
  '(frame-background-mode (quote dark))
  '(indent-tabs-mode nil)
@@ -177,11 +194,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 98 :width normal :foundry "PfEd" :family "DejaVu Sans Mono"))))
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight medium :height 130 :width semicondensed :family "Lucida Sans Typewriter"))))
+ ; '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 98 :width normal :foundry "PfEd" :family "DejaVu Sans Mono"))))
  '(font-lock-comment-face ((t (:foreground "Yellow"))))
  '(font-lock-keyword-face ((((class color) (min-colors 88) (background dark)) (:foreground "gray"))))
  '(font-lock-string-face ((t (:foreground "Orange")))))
 
 (when window-system
   (set-frame-position (selected-frame) -1 32)
-  (set-frame-size (selected-frame) 120 64))
+  (set-frame-size (selected-frame) 120 62))
