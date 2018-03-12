@@ -1,5 +1,4 @@
-;;
-;;
+;; 
 
 ;; (autoload 'matlab-shell "matlab" "Interactive MATLAB mode." t)
 
@@ -19,8 +18,36 @@
 ;(add-to-list 'load-path "~/.emacs.d/")
 ;(require 'bruker-mode)
 
+;; setup MELPA
+(require 'package)
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
+  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  ;; (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  (when (< emacs-major-version 24)
+    ;; For important compatibility libraries like cl-lib
+    (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))))
+(package-initialize)
+(package-refresh-contents)
+;; done MELPA
+
+(package-install 'flycheck)
+(global-flycheck-mode)
+
+;; use Cmake to build c++ files
+(package-install 'cpputils-cmake)
+(setq cppcm-write-flymake-makefile nil)
+(setq cppcm-build-dirname "Build")
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (if (derived-mode-p 'c-mode 'c++-mode)
+                (cppcm-reload-all)
+              )))
+
 (add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode)) ;; Matlab
-;(add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode)) ;; Objective-C
+;;(add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode)) ;; Objective-C
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode)) ;; Objective-C++
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode)) ;; C++
 (add-to-list 'auto-mode-alist '("\\.swg\\'" . c-mode)) ;; swig
@@ -65,8 +92,8 @@
   ;(print (concat "buffer-name     = " (buffer-name)))
   (when (and (buffer-file-name) (string-match "CMakeLists.txt" (buffer-name)))
     ;(setq file-name (file-name-nondirectory (buffer-file-name)))
-    (setq parent-dir (file-name-nondirectory 
-                      (directory-file-name 
+    (setq parent-dir (file-name-nondirectory
+                      (directory-file-name
                        (file-name-directory (buffer-file-name)))))
     ;(print (concat "parent-dir = " parent-dir))
     (setq new-buffer-name (concat "CMAKE-" parent-dir))
@@ -136,6 +163,7 @@
  '(inhibit-startup-screen t)
  '(lua-indent-level 2)
  '(matlab-indent-level 4)
+ '(package-selected-packages (quote (cpputils-cmake flycheck)))
  '(python-indent 4)
  '(python-indent-offset 4)
  '(show-paren-mode t)
