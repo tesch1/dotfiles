@@ -82,7 +82,7 @@
   (interactive)
 ; (message "TURBO BADGER style???")
   (if (string-match "turbobadger" buffer-file-name)
-      (progn (message "TURBO BADGER style!")
+      (progn (message "TURBO BADGER style :P")
              (setq c-basic-offset 4)
              (setq tab-width 4)
              (setq indent-tabs-mode t)
@@ -95,6 +95,7 @@
 ;; setup the modeline nicely
 (setq line-number-mode t)
 (setq column-number-mode t)
+(setq show-trailing-whitespace t)
 
 ;; mouse-wheel: scroll
 ;(global-set-key 'button4 'scroll-down-one)
@@ -148,7 +149,7 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 131 :width normal :foundry "bitstream" :family "Courier 10 Pitch"))))
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 108 :width normal :foundry "bitstream" :family "Courier 10 Pitch"))))
  '(font-lock-comment-face ((t (:foreground "Yellow"))))
  '(font-lock-keyword-face ((((class color) (min-colors 88) (background dark)) (:foreground "gray"))))
  '(font-lock-string-face ((t (:foreground "Orange")))))

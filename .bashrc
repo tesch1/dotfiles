@@ -4,9 +4,12 @@
 
 export PAGER=less
 export PATH=${PATH}:${HOME}/bin:${HOME}/local/bin
+export PATH=${PATH}:/opt/topspin3.5pl6
 export XWINNMRHOME=/opt/PV5.1
 export XWINNMRHOME=${HOME}/src/pv51
+export VAGRANT_HOME=/scrap/tesch/.vagrant.d
 
+# MacOS CUDA compilers
 if [ -d "/Developer/NVIDIA/CUDA-7.0" ]; then
     export PATH=${PATH}:/Developer/NVIDIA/CUDA-7.0/bin
     export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.0/lib:${DYLD_LIBRARY_PATH}
@@ -25,16 +28,6 @@ if [ -z "$PS1" ]; then
     return
 fi
 
-# use newer compilers on CentOS 6
-if [ -f "/opt/rh/devtoolset-3/enable" ]; then
-    source /opt/rh/devtoolset-3/enable
-fi
-
-# use newer python
-if [ -f "/opt/rh/python27/enable" ]; then
-    source /opt/rh/python27/enable
-fi
-
 alias ls="ls -F"
 alias more=less
 
@@ -44,3 +37,20 @@ shopt -s checkwinsize
 
 alias mkpwd='openssl rand -base64 6'
 
+function optrh() {
+    for enabler in /opt/rh/*/enable; do
+        if [ -f "$enabler" ]; then
+            source "$enabler"
+        fi
+    done
+}
+
+
+# added by travis gem
+[ -f /home/tesch/.travis/travis.sh ] && source /home/tesch/.travis/travis.sh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/scrap/tesch/local/google-cloud-sdk/path.bash.inc' ]; then source '/scrap/tesch/local/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/scrap/tesch/local/google-cloud-sdk/completion.bash.inc' ]; then source '/scrap/tesch/local/google-cloud-sdk/completion.bash.inc'; fi
