@@ -206,3 +206,6 @@
 (when window-system
   (set-frame-position (selected-frame) -1 32)
   (set-frame-size (selected-frame) 120 57))
+
+(provide '.emacs)
+;;; .emacs ends here
