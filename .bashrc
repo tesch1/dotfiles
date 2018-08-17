@@ -5,14 +5,15 @@
 export PAGER=less
 export PATH=${PATH}:${HOME}/bin:${HOME}/local/bin
 [ -d /opt/topspin3.5pl6 ] && export PATH=${PATH}:/opt/topspin3.5pl6
+[ -d /usr/local/texlive/2017/bin/x86_64-linux ] && export PATH=/usr/local/texlive/2017/bin/x86_64-linux:${PATH}
 export XWINNMRHOME=/opt/PV5.1
 export XWINNMRHOME=${HOME}/src/pv51
 export VAGRANT_HOME=/scrap/tesch/.vagrant.d
 
-if command -v emacs >/dev/null 2>&1 ; then
-    export EDITOR="emacs -nw"
-    export GIT_EDITOR="emacs -nw"
-fi
+#if command -v emacs >/dev/null 2>&1 ; then
+    #export EDITOR="emacs -nw"
+    #export GIT_EDITOR="emacs -nw"
+#fi
 
 # MacOS CUDA compilers
 if [ -d "/Developer/NVIDIA/CUDA-7.0" ]; then
@@ -31,6 +32,8 @@ fi
 alias ls="ls -F"
 alias more=less
 alias mkpwd='openssl rand -base64 6'
+alias oopen=xdg-open
+alias emore="grep --color=always -E '^|error|undefined|candidate' | less -R" # for make 2>&1 | emore
 
 PS1='\h:\W \u$ '
 shopt -s checkwinsize

@@ -7,21 +7,26 @@
 (autoload 'cmake-mode "~/.emacs.d/cmake-mode.el" t)
 (autoload 'magicalii-mode "~/.emacs.d/magicalii-mode.el" t)
 (autoload 'bruker-mode "~/.emacs.d/bruker-mode.el" t)
-(autoload 'web-mode "~/.emacs.d/web-mode.el" t)
+;;(autoload 'web-mode "~/.emacs.d/web-mode.el" t)
 (autoload 'go-mode "~/.emacs.d/go-mode.el" t)
 (autoload 'lua-mode "~/.emacs.d/lua-mode.el" t)
 (autoload 'flex-mode "~/.emacs.d/flex-mode.el" t)
-(autoload 'bison-mode "~/.emacs.d/bison-mode.el" t)
-(autoload 'rust-mode "~/.emacs.d/rust-mode.el" t)
-;(autoload 'wolfram-mode "~/.emacs.d/wolfram-mode.el" nil t)
-;(autoload 'mathematica-mode "~/.emacs.d/mathematica.el" nil t)
+;(autoload 'bison-mode "~/.emacs.d/bison-mode.el" t)
+;;(autoload 'rust-mode "~/.emacs.d/rust-mode.el" t)
+;;(autoload 'wolfram-mode "~/.emacs.d/wolfram-mode.el" nil t)
+;;(autoload 'mathematica-mode "~/.emacs.d/mathematica.el" nil t)
 
-;(add-to-list 'load-path "~/.emacs.d/")
-;(require 'bruker-mode)
-;(require 'rust-mode)
+;;(add-to-list 'load-path "~/.emacs.d/")
+;;(require 'bruker-mode)
+;;(require 'rust-mode)
 
-; list the packages you want
-(setq package-list '(flycheck cpputils-cmake))
+;; list the packages you want
+(setq package-list '(flycheck 
+                     cpputils-cmake
+                     web-mode
+                     modern-cpp-font-lock
+                     clang-format
+                     ))
 
 ;; setup MELPA
 (require 'package)
@@ -38,15 +43,21 @@
 (package-refresh-contents)
 ;; done MELPA
 
-; install the missing packages
+;; install the missing packages
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
 
 ;; enable flycheck
 (global-flycheck-mode)
+;;(add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++14")))
+(modern-c++-font-lock-global-mode t)
 
-;; use Cmake to build c++ files
+;; enable clang-format
+;;(require 'clang-format)
+(global-set-key (kbd "C-c C-f") 'clang-format-region)
+
+;; use CMake to build c++ files for flycheck
 (setq cppcm-write-flymake-makefile nil)
 (setq cppcm-build-dirname "Build")
 (add-hook 'c-mode-common-hook
@@ -60,7 +71,7 @@
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode)) ;; Objective-C++
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode)) ;; C++
 (add-to-list 'auto-mode-alist '("\\.swg\\'" . c-mode)) ;; swig
-(add-to-list 'auto-mode-alist '("\\.ru\\'" . rust-mode)) ;; rust
+;;(add-to-list 'auto-mode-alist '("\\.ru\\'" . rust-mode)) ;; rust
 (add-to-list 'auto-mode-alist '("\\.cu\\'" . c-mode)) ;; CUDA
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . c-mode)) ;; OpenCL
 (add-to-list 'auto-mode-alist '("\\.vsh\\'" . c-mode)) ;; Vertex Shader OpenGL
@@ -73,18 +84,18 @@
 (add-to-list 'auto-mode-alist '(".*/SConstruct*" . python-mode))
 (add-to-list 'auto-mode-alist '(".*/maclib/*." . magicalii-mode))
 (add-to-list 'auto-mode-alist '("\\.ppg\\'" . bruker-mode))
-(add-to-list 'auto-mode-alist '("\\.y\\'" . bison-mode))
+;;(add-to-list 'auto-mode-alist '("\\.y\\'" . bison-mode))
 
-; Add cmake listfile names to the mode list.
+;; Add cmake listfile names to the mode list.
 (setq auto-mode-alist
   (append
    '(("CMakeLists\\.txt\\'" . cmake-mode))
    '(("\\.cmake\\'" . cmake-mode))
    auto-mode-alist))
 
-;
-; disable auto autofilling in matlab mode (?)
-;
+;;
+;; disable auto autofilling in matlab mode (?)
+;;
 (defun my-matlab-mode-hook ()
   (setq-local fill-column 176))		; where auto-fill should wrap - never!
 (add-hook 'matlab-mode-hook 'my-matlab-mode-hook)
@@ -93,7 +104,7 @@
 (when (load "uniquify" 'NOERROR)
   (require 'uniquify)
   (setq uniquify-buffer-name-style 'forward)
- ;(setq uniquify-buffer-name-style 'post-forward)
+  ;;(setq uniquify-buffer-name-style 'post-forward)
   )
 (defun cmake-rename-buffer ()
   "Renames a CMakeLists.txt buffer to cmake-<directory name>."
@@ -166,16 +177,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
+ '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(c-basic-offset 2)
  '(c-offsets-alist (quote ((substatement-open . 0) (innamespace . 0))))
  '(c-tab-always-indent nil)
  '(column-number-mode t)
  '(custom-enabled-themes (quote (wheatgrass)))
- '(exec-path
-   (quote
-    ("/usr/bin" "/bin" "/usr/sbin" "/opt/local/bin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/bin-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec" "/Applications/Emacs.app/Contents/MacOS/bin")))
+ '(exec-path (quote ("/usr/bin" "/bin" "/usr/sbin" "/opt/local/bin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/bin-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec" "/Applications/Emacs.app/Contents/MacOS/bin")))
+ '(flycheck-c/c++-gcc-executable "/opt/rh/devtoolset-7/root/usr/bin/g++")
+ '(flycheck-disabled-checkers (quote (c++-clang c++-gcc)))
  '(fortran-line-length 120)
  '(frame-background-mode (quote dark))
  '(indent-tabs-mode nil)
@@ -190,15 +200,14 @@
  '(spice-simulator "Gnucap")
  '(spice-waveform-viewer "Gwave")
  '(tool-bar-mode nil)
- '(toolbar-visible-p nil))
+ '(toolbar-visible-p nil)
+ '(web-mode-markup-indent-offset 2))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 108 :width normal :foundry "bitstream" :family "Courier 10 Pitch"))))
- ;; '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight medium :height 130 :width semicondensed :family "Lucida Sans Typewriter"))))
- ;; '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 98 :width normal :foundry "PfEd" :family "DejaVu Sans Mono"))))
  '(font-lock-comment-face ((t (:foreground "Yellow"))))
  '(font-lock-keyword-face ((((class color) (min-colors 88) (background dark)) (:foreground "gray"))))
  '(font-lock-string-face ((t (:foreground "Orange")))))
