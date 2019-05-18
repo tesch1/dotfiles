@@ -50,9 +50,11 @@ alias mkpwd='openssl rand -base64 6'
 
 export RVA_CRED=$HOME/Documents/rva/rva_credentials.conf
 
-
 # added by travis gem
 [ -f /Users/tesch/.travis/travis.sh ] && source /Users/tesch/.travis/travis.sh
 
-# google cloud sdk
-[ -f /Users/tesch/share/google-cloud-sdk/path.bash.inc ] && source /Users/tesch/share/google-cloud-sdk/path.bash.inc
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/tesch/local/google-cloud-sdk/path.bash.inc' ]; then source '/Users/tesch/local/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/tesch/local/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/tesch/local/google-cloud-sdk/completion.bash.inc'; fi

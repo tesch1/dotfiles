@@ -4,25 +4,38 @@
 ;; (autoload 'matlab-shell "matlab" "Interactive MATLAB mode." t)
 
 ;; enable a Matlab mode
-(autoload 'matlab-mode "~/.emacs.d/matlab.el" "Enter Octave mode." t)
+
+(require 'package)
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
+  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  (when (< emacs-major-version 24)
+    ;; For important compatibility libraries like cl-lib
+    (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))))
+(package-initialize)
+
+;(autoload 'matlab-mode "~/.emacs.d/matlab.el" "Enter Octave mode." t)
 (autoload 'cmake-mode "~/.emacs.d/cmake-mode.el" t)
 (autoload 'magicalii-mode "~/.emacs.d/magicalii-mode.el" t)
 (autoload 'bruker-mode "~/.emacs.d/bruker-mode.el" t)
-(autoload 'web-mode "~/.emacs.d/web-mode.el" t)
-(autoload 'go-mode "~/.emacs.d/go-mode.el" t)
-(autoload 'lua-mode "~/.emacs.d/lua-mode.el" t)
-(autoload 'flex-mode "~/.emacs.d/flex-mode.el" t)
-(autoload 'bison-mode "~/.emacs.d/bison-mode.el" t)
-(autoload 'rust-mode "~/.emacs.d/rust-mode.el" t)
-;(autoload 'wolfram-mode "~/.emacs.d/wolfram-mode.el" nil t)
-;(autoload 'mathematica-mode "~/.emacs.d/mathematica.el" nil t)
+;;(autoload 'web-mode "~/.emacs.d/web-mode.el" t)
+;;(autoload 'go-mode "~/.emacs.d/go-mode.el" t)
+;;(autoload 'lua-mode "~/.emacs.d/lua-mode.el" t)
+;;(autoload 'flex-mode "~/.emacs.d/flex-mode.el" t)
+;;(autoload 'bison-mode "~/.emacs.d/bison-mode.el" t)
+;;(autoload 'rust-mode "~/.emacs.d/rust-mode.el" t)
+;;(autoload 'wolfram-mode "~/.emacs.d/wolfram-mode.el" nil t)
+;;(autoload 'mathematica-mode "~/.emacs.d/mathematica.el" nil t)
 
-;(add-to-list 'load-path "~/.emacs.d/")
-;(require 'bruker-mode)
-;(require 'rust-mode)
+;;(add-to-list 'load-path "~/.emacs.d/")
+;;(require 'bruker-mode)
+;;(require 'rust-mode)
 
-(add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode)) ;; Matlab
-;(add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode)) ;; Objective-C
+;;(add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode)) ;; Matlab
+;;(add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode)) ;; Objective-C
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode)) ;; Objective-C++
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode)) ;; C++
 (add-to-list 'auto-mode-alist '("\\.swg\\'" . c-mode)) ;; swig
@@ -32,14 +45,14 @@
 (add-to-list 'auto-mode-alist '("\\.vsh\\'" . c-mode)) ;; Vertex Shader OpenGL
 (add-to-list 'auto-mode-alist '("\\.fsh\\'" . c-mode)) ;; Fragment Shader OpenGL
 (add-to-list 'auto-mode-alist '("\\.glsl\\'" . c-mode)) ;; OpenGL Shader Language
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode)) ;; templates
-(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode)) ;; go
-(add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-mode)) ;; Lua
+;;(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode)) ;; templates
+;;(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode)) ;; go
+;;(add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-mode)) ;; Lua
 (add-to-list 'auto-mode-alist '("\\.cmn\\'" . fortran-mode)) ;; fortran common
 (add-to-list 'auto-mode-alist '(".*/SConstruct*" . python-mode))
 (add-to-list 'auto-mode-alist '(".*/maclib/*." . magicalii-mode))
 (add-to-list 'auto-mode-alist '("\\.ppg\\'" . bruker-mode))
-(add-to-list 'auto-mode-alist '("\\.y\\'" . bison-mode))
+;;(add-to-list 'auto-mode-alist '("\\.y\\'" . bison-mode))
 
 ; Add cmake listfile names to the mode list.
 (setq auto-mode-alist
@@ -153,6 +166,7 @@
  '(inhibit-startup-screen t)
  '(lua-indent-level 2)
  '(matlab-indent-level 4)
+ '(package-selected-packages (quote (yaml-mode)))
  '(python-indent 4)
  '(python-indent-offset 4)
  '(show-paren-mode t)
@@ -167,7 +181,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight medium :height 130 :width semicondensed :family "Lucida Sans Typewriter"))))
- ; '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 98 :width normal :foundry "PfEd" :family "DejaVu Sans Mono"))))
  '(font-lock-comment-face ((t (:foreground "Yellow"))))
  '(font-lock-keyword-face ((((class color) (min-colors 88) (background dark)) (:foreground "gray"))))
  '(font-lock-string-face ((t (:foreground "Orange")))))
