@@ -1,5 +1,9 @@
-;; 
+;;; .emacs --- emacs startup file
 
+;;; Commentary:
+;; shutup Lisp flycheck
+
+;;; Code:
 ;;no menubar
 (menu-bar-mode -1)
 
@@ -11,11 +15,12 @@
 ;;(require 'smooth-scroll)
 
 ;; list the packages you want
-(setq package-list '(flycheck 
+(setq package-list '(flycheck
                      cpputils-cmake
                      web-mode
                      modern-cpp-font-lock
                      clang-format
+		     editorconfig
                      ))
 
 ;; setup MELPA
@@ -213,7 +218,7 @@
 
 (when window-system
   (set-frame-position (selected-frame) -1 32)
-  (set-frame-size (selected-frame) 120 57))
+  (set-frame-size (selected-frame) 120 63))
 
 (provide '.emacs)
 ;;; .emacs ends here
