@@ -1,5 +1,8 @@
 ;; 
 
+;;no menubar
+(menu-bar-mode -1)
+
 ;; (autoload 'matlab-shell "matlab" "Interactive MATLAB mode." t)
 
 ;; enable a Matlab mode
@@ -13,12 +16,14 @@
 (autoload 'flex-mode "~/.emacs.d/flex-mode.el" t)
 (autoload 'bison-mode "~/.emacs.d/bison-mode.el" t)
 (autoload 'rust-mode "~/.emacs.d/rust-mode.el" t)
-;(autoload 'wolfram-mode "~/.emacs.d/wolfram-mode.el" nil t)
-;(autoload 'mathematica-mode "~/.emacs.d/mathematica.el" nil t)
+;;(autoload 'wolfram-mode "~/.emacs.d/wolfram-mode.el" nil t)
+;;(autoload 'mathematica-mode "~/.emacs.d/mathematica.el" nil t)
 
-;(add-to-list 'load-path "~/.emacs.d/")
-;(require 'bruker-mode)
-;(require 'rust-mode)
+;;(add-to-list 'load-path "~/.emacs.d/")
+;;(require 'bruker-mode)
+;;(require 'rust-mode)
+
+;;(require 'smooth-scroll)
 
 ;; setup MELPA
 (require 'package)
@@ -32,14 +37,17 @@
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
-(package-refresh-contents)
+;;(package-refresh-contents) ;; do this occasionally, not every time
 ;; done MELPA
 
-(package-install 'flycheck)
+;;(package-install 'flycheck)
 (global-flycheck-mode)
 
+;; look for .editorconfig file all the time
+(editorconfig-mode 1)
+
 ;; use Cmake to build c++ files
-(package-install 'cpputils-cmake)
+;;(package-install 'cpputils-cmake)
 (setq cppcm-write-flymake-makefile nil)
 (setq cppcm-build-dirname "Build")
 (add-hook 'c-mode-common-hook
@@ -48,7 +56,7 @@
                 (cppcm-reload-all)
               )))
 
-(add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode)) ;; Matlab
+;;(add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode)) ;; Matlab
 ;;(add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode)) ;; Objective-C
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode)) ;; Objective-C++
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode)) ;; C++
@@ -68,16 +76,16 @@
 (add-to-list 'auto-mode-alist '("\\.ppg\\'" . bruker-mode))
 (add-to-list 'auto-mode-alist '("\\.y\\'" . bison-mode))
 
-; Add cmake listfile names to the mode list.
+;; Add cmake listfile names to the mode list.
 (setq auto-mode-alist
   (append
    '(("CMakeLists\\.txt\\'" . cmake-mode))
    '(("\\.cmake\\'" . cmake-mode))
    auto-mode-alist))
 
-;
-; disable auto autofilling in matlab mode (?)
-;
+;;
+;; disable auto autofilling in matlab mode (?)
+;;
 (defun my-matlab-mode-hook ()
   (setq fill-column 176))		; where auto-fill should wrap - never!
 (add-hook 'matlab-mode-hook 'my-matlab-mode-hook)
@@ -86,21 +94,21 @@
 (when (load "uniquify" 'NOERROR)
   (require 'uniquify)
   (setq uniquify-buffer-name-style 'forward)
- ;(setq uniquify-buffer-name-style 'post-forward)
+  ;;(setq uniquify-buffer-name-style 'post-forward)
   )
 (defun cmake-rename-buffer ()
   "Renames a CMakeLists.txt buffer to cmake-<directory name>."
   (interactive)
-  ;(print (concat "buffer-filename = " (buffer-file-name)))
-  ;(print (concat "buffer-name     = " (buffer-name)))
+  ;;(print (concat "buffer-filename = " (buffer-file-name)))
+  ;;(print (concat "buffer-name     = " (buffer-name)))
   (when (and (buffer-file-name) (string-match "CMakeLists.txt" (buffer-name)))
     ;(setq file-name (file-name-nondirectory (buffer-file-name)))
     (setq parent-dir (file-name-nondirectory
                       (directory-file-name
                        (file-name-directory (buffer-file-name)))))
-    ;(print (concat "parent-dir = " parent-dir))
+    ;;(print (concat "parent-dir = " parent-dir))
     (setq new-buffer-name (concat "CMAKE-" parent-dir))
-    ;(print (concat "new-buffer-name= " new-buffer-name))
+    ;;(print (concat "new-buffer-name= " new-buffer-name))
     (rename-buffer new-buffer-name t)
     )
   )
@@ -109,26 +117,23 @@
 
 ;; foursptab "style"
 (defun set-foursptab-style ()
+  "Set the current buffer to horrid four-space tabs."
   (progn (message "FOUR SPACE TAB style!")
          (setq c-basic-offset 4)
          (setq tab-width 4)
          (setq indent-tabs-mode t)
          ))
 (defun maybe-foursptab-offset ()
-  (interactive)
-  (if (or (string-match "turbobadger" buffer-file-name)
-          (string-match "litehtml/src" buffer-file-name))
-      (set-foursptab-style))
-  )
-(defun maybe-foursptabtb-offset ()
-  (interactive)
-  (if (or (string-match "turbobadger" buffer-file-name)
-          (string-match "litehtml/src" buffer-file-name))
-      (set-foursptab-style))
+  "Check if the current buffer should get horrid four-space tabs."
+  (when (or (string-match "Xturbobadger" buffer-file-name)
+            (string-match "Xlitehtml/src" buffer-file-name)
+            (string-match "Xnanosvg" buffer-file-name)
+            )
+    (set-foursptab-style))
   )
 (add-hook 'c++-mode-hook 'maybe-foursptab-offset)
 (add-hook 'c-mode-hook 'maybe-foursptab-offset)
-(add-hook 'text-mode 'maybe-foursptabtb-offset)
+(add-hook 'text-mode 'maybe-foursptab-offset)
 (if (boundp 'fundamental-mode-map)
     (define-key fundamental-mode-map (kbd "TAB") 'self-insert-command))
 
@@ -138,13 +143,13 @@
 (setq fill-column 72)
 
 ;; mouse-wheel: scroll
-;(global-set-key 'button4 'scroll-down-one)
-;(global-set-key 'button5 'scroll-up-one)
+;;(global-set-key 'button4 'scroll-down-one)
+;;(global-set-key 'button5 'scroll-up-one)
 
 ;; on the mac two-finger scroll pad define these so they dont beep
 ;;  this is probably close to what was meant...
-;(global-set-key 'button6 'scroll-up-one)
-;(global-set-key 'button7 'scroll-down-one)
+;;(global-set-key 'button6 'scroll-up-one)
+;;(global-set-key 'button7 'scroll-down-one)
 
 (global-set-key "\C-x\C-b" 'electric-buffer-list)
 (global-set-key "\M-g" 'goto-line)
@@ -153,7 +158,7 @@
 (global-set-key "\C-s" 'isearch-forward-regexp)
 (global-set-key "\M-%" 'query-replace-regexp)
 
-; need these 4 settings to map command to meta on macos (emacsformacosx)
+;; need these 4 settings to map command to meta on macos (emacsformacosx)
 (setq mac-option-key-is-meta nil)
 (setq mac-command-key-is-meta t)
 (setq mac-command-modifier 'meta)
@@ -174,13 +179,17 @@
  '(exec-path
    (quote
     ("/usr/bin" "/bin" "/usr/sbin" "/opt/local/bin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/bin-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec" "/Applications/Emacs.app/Contents/MacOS/bin")))
+ '(focus-follows-mouse t)
  '(fortran-line-length 120)
  '(frame-background-mode (quote dark))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(lua-indent-level 2)
  '(matlab-indent-level 4)
- '(package-selected-packages (quote (cpputils-cmake flycheck)))
+ '(mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
+ '(package-selected-packages
+   (quote
+    (flymake-yaml editorconfig smooth-scrolling smooth-scroll lex)))
  '(python-indent 4)
  '(python-indent-offset 4)
  '(show-paren-mode t)
@@ -194,8 +203,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight medium :height 130 :width semicondensed :family "Lucida Sans Typewriter"))))
- ; '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 98 :width normal :foundry "PfEd" :family "DejaVu Sans Mono"))))
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 113 :width normal :family "DejaVu Sans Mono" :foundry "PfEd"))))
  '(font-lock-comment-face ((t (:foreground "Yellow"))))
  '(font-lock-keyword-face ((((class color) (min-colors 88) (background dark)) (:foreground "gray"))))
  '(font-lock-string-face ((t (:foreground "Orange")))))
