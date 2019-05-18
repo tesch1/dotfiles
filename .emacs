@@ -10,12 +10,12 @@
 (autoload 'cmake-mode "~/.emacs.d/cmake-mode.el" t)
 (autoload 'magicalii-mode "~/.emacs.d/magicalii-mode.el" t)
 (autoload 'bruker-mode "~/.emacs.d/bruker-mode.el" t)
-(autoload 'web-mode "~/.emacs.d/web-mode.el" t)
+;;(autoload 'web-mode "~/.emacs.d/web-mode.el" t)
 (autoload 'go-mode "~/.emacs.d/go-mode.el" t)
 (autoload 'lua-mode "~/.emacs.d/lua-mode.el" t)
 (autoload 'flex-mode "~/.emacs.d/flex-mode.el" t)
-(autoload 'bison-mode "~/.emacs.d/bison-mode.el" t)
-(autoload 'rust-mode "~/.emacs.d/rust-mode.el" t)
+;;(autoload 'bison-mode "~/.emacs.d/bison-mode.el" t)
+;;(autoload 'rust-mode "~/.emacs.d/rust-mode.el" t)
 ;;(autoload 'wolfram-mode "~/.emacs.d/wolfram-mode.el" nil t)
 ;;(autoload 'mathematica-mode "~/.emacs.d/mathematica.el" nil t)
 
@@ -24,6 +24,13 @@
 ;;(require 'rust-mode)
 
 ;;(require 'smooth-scroll)
+;; list the packages you want
+(setq package-list '(flycheck 
+                     cpputils-cmake
+                     web-mode
+                     modern-cpp-font-lock
+                     clang-format
+                     ))
 
 ;; setup MELPA
 (require 'package)
@@ -40,13 +47,24 @@
 ;;(package-refresh-contents) ;; do this occasionally, not every time
 ;; done MELPA
 
-;;(package-install 'flycheck)
+;; install the missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
+;; enable flycheck
 (global-flycheck-mode)
+;;(add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++14")))
+(modern-c++-font-lock-global-mode t)
+
+;; enable clang-format
+;;(require 'clang-format)
+(global-set-key (kbd "C-c C-f") 'clang-format-region)
 
 ;; look for .editorconfig file all the time
 (editorconfig-mode 1)
 
-;; use Cmake to build c++ files
+;; use CMake to build c++ files for flycheck
 ;;(package-install 'cpputils-cmake)
 (setq cppcm-write-flymake-makefile nil)
 (setq cppcm-build-dirname "Build")
@@ -61,20 +79,20 @@
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode)) ;; Objective-C++
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode)) ;; C++
 (add-to-list 'auto-mode-alist '("\\.swg\\'" . c-mode)) ;; swig
-(add-to-list 'auto-mode-alist '("\\.ru\\'" . rust-mode)) ;; rust
+;;(add-to-list 'auto-mode-alist '("\\.ru\\'" . rust-mode)) ;; rust
 (add-to-list 'auto-mode-alist '("\\.cu\\'" . c-mode)) ;; CUDA
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . c-mode)) ;; OpenCL
 (add-to-list 'auto-mode-alist '("\\.vsh\\'" . c-mode)) ;; Vertex Shader OpenGL
 (add-to-list 'auto-mode-alist '("\\.fsh\\'" . c-mode)) ;; Fragment Shader OpenGL
 (add-to-list 'auto-mode-alist '("\\.glsl\\'" . c-mode)) ;; OpenGL Shader Language
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode)) ;; templates
-(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode)) ;; go
-(add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-mode)) ;; Lua
+;;(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode)) ;; templates
+;;(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode)) ;; go
+;;(add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-mode)) ;; Lua
 (add-to-list 'auto-mode-alist '("\\.cmn\\'" . fortran-mode)) ;; fortran common
 (add-to-list 'auto-mode-alist '(".*/SConstruct*" . python-mode))
 (add-to-list 'auto-mode-alist '(".*/maclib/*." . magicalii-mode))
 (add-to-list 'auto-mode-alist '("\\.ppg\\'" . bruker-mode))
-(add-to-list 'auto-mode-alist '("\\.y\\'" . bison-mode))
+;;(add-to-list 'auto-mode-alist '("\\.y\\'" . bison-mode))
 
 ;; Add cmake listfile names to the mode list.
 (setq auto-mode-alist
@@ -87,7 +105,7 @@
 ;; disable auto autofilling in matlab mode (?)
 ;;
 (defun my-matlab-mode-hook ()
-  (setq fill-column 176))		; where auto-fill should wrap - never!
+  (setq-local fill-column 176))		; where auto-fill should wrap - never!
 (add-hook 'matlab-mode-hook 'my-matlab-mode-hook)
 
 ;; uniquify.el is a helper routine to help give buffer names a better unique name.
@@ -140,6 +158,7 @@
 ;; setup the modeline nicely
 (setq line-number-mode t)
 (setq column-number-mode t)
+(setq show-trailing-whitespace t)
 (setq fill-column 72)
 
 ;; mouse-wheel: scroll
@@ -169,8 +188,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
+ '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(c-basic-offset 2)
  '(c-offsets-alist (quote ((substatement-open . 0) (innamespace . 0))))
  '(c-tab-always-indent nil)
@@ -180,6 +198,7 @@
    (quote
     ("/usr/bin" "/bin" "/usr/sbin" "/opt/local/bin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/bin-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec" "/Applications/Emacs.app/Contents/MacOS/bin")))
  '(focus-follows-mouse t)
+ '(flycheck-disabled-checkers (quote (c++-clang c++-gcc)))
  '(fortran-line-length 120)
  '(frame-background-mode (quote dark))
  '(indent-tabs-mode nil)
@@ -197,7 +216,8 @@
  '(spice-simulator "Gnucap")
  '(spice-waveform-viewer "Gwave")
  '(tool-bar-mode nil)
- '(toolbar-visible-p nil))
+ '(toolbar-visible-p nil)
+ '(web-mode-markup-indent-offset 2))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -210,4 +230,7 @@
 
 (when window-system
   (set-frame-position (selected-frame) -1 32)
-  (set-frame-size (selected-frame) 120 62))
+  (set-frame-size (selected-frame) 120 57))
+
+(provide '.emacs)
+;;; .emacs ends here
