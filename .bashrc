@@ -1,7 +1,6 @@
 #
 # startup file for bash shells
 #
-
 export PAGER=less
 export XWINNMRHOME=/opt/PV5.1
 export XWINNMRHOME=${HOME}/src/pv51
@@ -15,7 +14,7 @@ export RVA_CRED="$HOME/Documents/rva/rva_credentials.conf"
 
 [ -d /opt/topspin3.5pl6 ] && export PATH=${PATH}:/opt/topspin3.5pl6
 [ -d /usr/local/texlive/2017/bin/x86_64-linux ] && export PATH=/usr/local/texlive/2017/bin/x86_64-linux:${PATH}
-export VAGRANT_HOME=/scrap/tesch/.vagrant.d
+[ -d /scrap/tesch/.vagrant.d ] && export VAGRANT_HOME=/scrap/tesch/.vagrant.d
 
 # MacOS CUDA compilers
 if [ -d "/Developer/NVIDIA/CUDA-7.0" ]; then

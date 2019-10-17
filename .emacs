@@ -5,7 +5,35 @@
 
 ;;; Code:
 ;;no menubar
-(menu-bar-mode -1)
+;;(menu-bar-mode -1)
+
+;; setup the modeline nicely
+(setq line-number-mode t)
+(setq column-number-mode t)
+(setq show-trailing-whitespace t)
+(setq fill-column 72)
+
+;; mouse-wheel: scroll
+;;(global-set-key 'button4 'scroll-down-one)
+;;(global-set-key 'button5 'scroll-up-one)
+
+;; on the mac two-finger scroll pad define these so they dont beep
+;;  this is probably close to what was meant...
+;;(global-set-key 'button6 'scroll-up-one)
+;;(global-set-key 'button7 'scroll-down-one)
+
+(global-set-key "\C-x\C-b" 'electric-buffer-list)
+(global-set-key "\M-g" 'goto-line)
+
+(global-set-key "\C-r" 'isearch-backward-regexp)
+(global-set-key "\C-s" 'isearch-forward-regexp)
+(global-set-key "\M-%" 'query-replace-regexp)
+
+;; need these 4 settings to map command to meta on macos (emacsformacosx)
+(setq mac-option-key-is-meta nil)
+(setq mac-command-key-is-meta t)
+(setq mac-command-modifier 'meta)
+(setq mac-option-modifier nil)
 
 (autoload 'magicalii-mode "~/.emacs.d/magicalii-mode.el" t)
 (autoload 'bruker-mode "~/.emacs.d/bruker-mode.el" t)
@@ -67,6 +95,7 @@
 
 
 (add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode)) ;; Matlab
+(add-to-list 'auto-mode-alist '("\\.md\\'" . rst-mode)) ;; ReStructured Text
 ;;(add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode)) ;; Objective-C
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode)) ;; Objective-C++
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode)) ;; C++
@@ -95,6 +124,13 @@
 (defun my-matlab-mode-hook ()
   (setq-local fill-column 176))		; where auto-fill should wrap - never!
 (add-hook 'matlab-mode-hook 'my-matlab-mode-hook)
+
+;; bison file columns
+(setq bison-rule-separator-column 6)
+(setq bison-rule-enumeration-column 8)
+(setq bison-decl-type-column 7)
+(setq bison-decl-token-column 7)
+
 
 ;; uniquify.el is a helper routine to help give buffer names a better unique name.
 (when (load "uniquify" 'NOERROR)
@@ -143,40 +179,13 @@
 (if (boundp 'fundamental-mode-map)
     (define-key fundamental-mode-map (kbd "TAB") 'self-insert-command))
 
-;; setup the modeline nicely
-(setq line-number-mode t)
-(setq column-number-mode t)
-(setq show-trailing-whitespace t)
-(setq fill-column 72)
-
-;; mouse-wheel: scroll
-;;(global-set-key 'button4 'scroll-down-one)
-;;(global-set-key 'button5 'scroll-up-one)
-
-;; on the mac two-finger scroll pad define these so they dont beep
-;;  this is probably close to what was meant...
-;;(global-set-key 'button6 'scroll-up-one)
-;;(global-set-key 'button7 'scroll-down-one)
-
-(global-set-key "\C-x\C-b" 'electric-buffer-list)
-(global-set-key "\M-g" 'goto-line)
-
-(global-set-key "\C-r" 'isearch-backward-regexp)
-(global-set-key "\C-s" 'isearch-forward-regexp)
-(global-set-key "\M-%" 'query-replace-regexp)
-
-;; need these 4 settings to map command to meta on macos (emacsformacosx)
-(setq mac-option-key-is-meta nil)
-(setq mac-command-key-is-meta t)
-(setq mac-command-modifier 'meta)
-(setq mac-option-modifier nil)
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
+ '(ansi-color-names-vector
+   ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(c-basic-offset 2)
  '(c-offsets-alist (quote ((substatement-open . 0) (innamespace . 0))))
  '(c-tab-always-indent nil)
@@ -185,8 +194,8 @@
  '(exec-path
    (quote
     ("/usr/bin" "/bin" "/usr/sbin" "/opt/local/bin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/bin-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec" "/Applications/Emacs.app/Contents/MacOS/bin")))
- '(focus-follows-mouse t)
  '(flycheck-disabled-checkers (quote (c++-clang c++-gcc)))
+ '(focus-follows-mouse t)
  '(fortran-line-length 120)
  '(frame-background-mode (quote dark))
  '(indent-tabs-mode nil)
@@ -196,7 +205,7 @@
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
  '(package-selected-packages
    (quote
-    (flymake-yaml editorconfig smooth-scrolling smooth-scroll lex yaml-mode)))
+    (swift-mode bison-mode cmake-mode flymake-yaml editorconfig smooth-scrolling smooth-scroll lex yaml-mode)))
  '(python-indent 4)
  '(python-indent-offset 4)
  '(show-paren-mode t)
@@ -211,7 +220,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight medium :height 130 :width semicondensed :family "Lucida Sans Typewriter"))))
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight medium :height 130 :width semicondensed :family "Andale Mono"))))
  '(font-lock-comment-face ((t (:foreground "Yellow"))))
  '(font-lock-keyword-face ((((class color) (min-colors 88) (background dark)) (:foreground "gray"))))
  '(font-lock-string-face ((t (:foreground "Orange")))))
