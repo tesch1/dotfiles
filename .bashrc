@@ -6,6 +6,7 @@ export XWINNMRHOME=/opt/PV5.1
 export XWINNMRHOME=${HOME}/src/pv51
 export PYTHONSTARTUP=${HOME}/.pythonrc
 export NPM_PACKAGES=${HOME}/.npm-packages
+export NODE_PATH=${NPM_PACKAGES}/lib/node_modules
 export PATH=${PATH}:${HOME}/bin:${HOME}/local/bin:$NPM_PACKAGES/bin
 export PATH=${PATH}:/opt/SpinDrops
 

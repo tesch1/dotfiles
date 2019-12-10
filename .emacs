@@ -46,9 +46,12 @@
 (setq package-list '(flycheck
                      cpputils-cmake
                      web-mode
-                     modern-cpp-font-lock
+                     ;;modern-cpp-font-lock
+                     ;;irony
                      clang-format
 		     editorconfig
+                     lsp-mode
+                     lsp-ui
                      ))
 
 ;; setup MELPA
@@ -73,7 +76,6 @@
 
 ;; enable flycheck
 (global-flycheck-mode)
-;;(add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++14")))
 (modern-c++-font-lock-global-mode t)
 
 ;; enable clang-format
@@ -85,13 +87,13 @@
 
 ;; use CMake to build c++ files for flycheck
 ;;(package-install 'cpputils-cmake)
-(setq cppcm-write-flymake-makefile nil)
-(setq cppcm-build-dirname "Build")
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            (if (derived-mode-p 'c-mode 'c++-mode)
-                (cppcm-reload-all)
-              )))
+;(setq cppcm-write-flymake-makefile nil)
+;(setq cppcm-build-dirname "Build")
+;(add-hook 'c-mode-common-hook
+;          (lambda ()
+;            (if (derived-mode-p 'c-mode 'c++-mode)
+;                (cppcm-reload-all)
+;              )))
 
 
 (add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode)) ;; Matlab
@@ -117,6 +119,14 @@
    '(("CMakeLists\\.txt\\'" . cmake-mode))
    '(("\\.cmake\\'" . cmake-mode))
    auto-mode-alist))
+
+;; setup lsp-mode
+(require 'lsp)
+(require 'lsp-clients)
+(require 'lsp-ui)
+(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+(add-hook 'c++-mode-hook 'lsp)
+(add-hook 'c++-mode-hook 'flycheck-mode)
 
 ;;
 ;; disable auto autofilling in matlab mode (?)
@@ -200,12 +210,13 @@
  '(frame-background-mode (quote dark))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(lsp-clients-clangd-executable "clangd-mp-9.0")
  '(lua-indent-level 2)
  '(matlab-indent-level 4)
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
  '(package-selected-packages
    (quote
-    (swift-mode bison-mode cmake-mode flymake-yaml editorconfig smooth-scrolling smooth-scroll lex yaml-mode)))
+    (lsp-ui yasnippet lsp-mode irony clang-format+ swift-mode bison-mode cmake-mode flymake-yaml editorconfig smooth-scrolling smooth-scroll lex yaml-mode)))
  '(python-indent 4)
  '(python-indent-offset 4)
  '(show-paren-mode t)
