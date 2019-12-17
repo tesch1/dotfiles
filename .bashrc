@@ -1,20 +1,23 @@
 #
 # startup file for bash shells
 #
-
 export PAGER=less
-[ -d /opt/topspin3.5pl6 ] && export PATH=${PATH}:/opt/topspin3.5pl6
-[ -d /usr/local/texlive/2018/bin/x86_64-linux ] && export PATH=/usr/local/texlive/2018/bin/x86_64-linux:${PATH}
-export PATH=${HOME}/bin:${HOME}/local/bin:${PATH}:/opt/SpinDrops/
 export XWINNMRHOME=/opt/PV5.1
 export XWINNMRHOME=${HOME}/src/pv51
+export PYTHONSTARTUP=${HOME}/.pythonrc
+export NPM_PACKAGES=${HOME}/.npm-packages
+export NODE_PATH=${NPM_PACKAGES}/lib/node_modules
 export VAGRANT_HOME=/scrap/tesch/.vagrant.d
 export ANDROID_HOME=${HOME}/Android/Sdk
+export PATH=${HOME}/bin:${HOME}/local/bin:${PATH}:$NPM_PACKAGES/bin
+export PATH=${PATH}:/opt/SpinDrops
 
-#if command -v emacs >/dev/null 2>&1 ; then
-    #export EDITOR="emacs -nw"
-    #export GIT_EDITOR="emacs -nw"
-#fi
+export RVA_CRED=$HOME/Documents/rva/rva_credentials.conf
+export RVA_CRED="$HOME/Documents/rva/rva_credentials.conf"
+
+[ -d /opt/topspin3.5pl6 ] && export PATH=${PATH}:/opt/topspin3.5pl6
+[ -d /usr/local/texlive/2018/bin/x86_64-linux ] && export PATH=/usr/local/texlive/2018/bin/x86_64-linux:${PATH}
+[ -d /scrap/tesch/.vagrant.d ] && export VAGRANT_HOME=/scrap/tesch/.vagrant.d
 
 # MacOS CUDA compilers
 if [ -d "/Developer/NVIDIA/CUDA-7.0" ]; then
@@ -34,8 +37,9 @@ if [ -z "$PS1" ]; then
 fi
 
 alias ls="ls -F"
-alias more=less
+alias more="less -R"
 alias mkpwd='openssl rand -base64 6'
+top50() { readelf -sW $1 | awk '$4 == "OBJECT" { print }' | sort -k 3 -n -r | head -n 50 | c++filt; }
 alias oopen=xdg-open
 alias emore="grep --color=always -E '^|error|undefined|candidate' | less -R" # for make 2>&1 | emore
 
@@ -55,22 +59,12 @@ function optrh() {
 optrh
 
 # added by travis gem
-[ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh
+[ -f "${HOME}/.travis/travis.sh" ] && source "${HOME}/.travis/travis.sh"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/scrap/tesch/local/google-cloud-sdk/path.bash.inc' ]; then
-    source '/scrap/tesch/local/google-cloud-sdk/path.bash.inc';
-fi
+if [ -f "${HOME}/local/google-cloud-sdk/path.bash.inc" ]; then source "${HOME}/local/google-cloud-sdk/path.bash.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/scrap/tesch/local/google-cloud-sdk/completion.bash.inc' ]; then
-    source '/scrap/tesch/local/google-cloud-sdk/completion.bash.inc';
-fi
+if [ -f "${HOME}/local/google-cloud-sdk/completion.bash.inc" ]; then source "${HOME}/local/google-cloud-sdk/completion.bash.inc"; fi
 
-export RVA_CRED="$HOME/Documents/rva/rva_credentials.conf"
-
-# added by travis gem
-[ -f /Users/tesch/.travis/travis.sh ] && source /Users/tesch/.travis/travis.sh
-
-# google cloud sdk
-[ -f /Users/tesch/share/google-cloud-sdk/path.bash.inc ] && source /Users/tesch/share/google-cloud-sdk/path.bash.inc
+#export QSYS_ROOTDIR="/home/tesch/intelFPGA_lite/18.0/quartus/sopc_builder/bin"
