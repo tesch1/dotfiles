@@ -3,13 +3,13 @@
 ;; (autoload 'matlab-shell "matlab" "Interactive MATLAB mode." t)
 
 ;; enable a Matlab mode
-(autoload 'matlab-mode "~/.emacs.d/matlab.el" "Enter Octave mode." t)
+;;(autoload 'matlab-mode "~/.emacs.d/matlab.el" "Enter Octave mode." t)
 (autoload 'cmake-mode "~/.emacs.d/cmake-mode.el" t)
-(autoload 'magicalii-mode "~/.emacs.d/magicalii-mode.el" t)
-(autoload 'bruker-mode "~/.emacs.d/bruker-mode.el" t)
+;;(autoload 'magicalii-mode "~/.emacs.d/magicalii-mode.el" t)
+;;(autoload 'bruker-mode "~/.emacs.d/bruker-mode.el" t)
 ;;(autoload 'web-mode "~/.emacs.d/web-mode.el" t)
-(autoload 'go-mode "~/.emacs.d/go-mode.el" t)
-(autoload 'lua-mode "~/.emacs.d/lua-mode.el" t)
+;;(autoload 'go-mode "~/.emacs.d/go-mode.el" t)
+;;(autoload 'lua-mode "~/.emacs.d/lua-mode.el" t)
 (autoload 'flex-mode "~/.emacs.d/flex-mode.el" t)
 ;(autoload 'bison-mode "~/.emacs.d/bison-mode.el" t)
 ;;(autoload 'rust-mode "~/.emacs.d/rust-mode.el" t)
@@ -49,9 +49,9 @@
     (package-install package)))
 
 ;; enable flycheck
-(global-flycheck-mode)
-;;(add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++14")))
-(modern-c++-font-lock-global-mode t)
+;;(global-flycheck-mode)
+;;(add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
+;;(modern-c++-font-lock-global-mode t)
 
 ;; enable clang-format
 ;;(require 'clang-format)
@@ -184,6 +184,7 @@
  '(column-number-mode t)
  '(custom-enabled-themes (quote (wheatgrass)))
  '(exec-path (quote ("/usr/bin" "/bin" "/usr/sbin" "/opt/local/bin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/bin-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec" "/Applications/Emacs.app/Contents/MacOS/bin")))
+ '(flycheck-c/c++-clang-executable "/opt/rh/llvm-toolset-7/root/usr/bin/clang")
  '(flycheck-c/c++-gcc-executable "/opt/rh/devtoolset-7/root/usr/bin/g++")
  '(flycheck-disabled-checkers (quote (c++-clang c++-gcc)))
  '(fortran-line-length 120)
