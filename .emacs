@@ -124,19 +124,15 @@
 ;; setup lsp-mode
 ;;; https://www.mortens.dev/blog/emacs-and-the-language-server-protocol/
 (when (> emacs-major-version 24)
-  (use-package lsp-mode
-	       :config
-	       ;; `-background-index' requires clangd v8+!
-	       (setq lsp-clients-clangd-args '("-j=2" "-background-index" "-log=error"))
-	       (setq lsp-prefer-flymake nil) ;; Prefer using lsp-ui (flycheck) over flymake.
-	       (setq lsp-enable-snippet nil) ;; 
-	       )
   (require 'lsp)
   (require 'lsp-clients)
   (require 'lsp-ui)
   (add-hook 'lsp-mode-hook 'lsp-ui-mode)
   (add-hook 'c++-mode-hook 'lsp)
-  (add-hook 'c++-mode-hook 'flycheck-mode)
+  (setq lsp-clients-clangd-args '("-j=2" "-background-index" "-log=error"))
+  (setq lsp-prefer-flymake nil) ;; Prefer using lsp-ui (flycheck) over flymake.
+  (setq lsp-enable-snippet nil) ;;
+  ;;(add-hook 'c++-mode-hook 'flycheck-mode)
 )
 
 ;;

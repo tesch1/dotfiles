@@ -10,8 +10,9 @@
  '(c-tab-always-indent nil)
  '(column-number-mode t)
  '(custom-enabled-themes (quote (wheatgrass)))
-;; '(exec-path (quote ("/usr/bin" "/bin" "/usr/sbin" "/opt/local/bin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/bin-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec" "/Applications/Emacs.app/Contents/MacOS/bin")))
-;; '(exec-path (quote ("/usr/bin" "/bin" "/usr/sbin" "/opt/local/bin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/bin-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec" "/Applications/Emacs.app/Contents/MacOS/bin")))
+ '(exec-path
+   (quote
+    ("/usr/bin" "/bin" "/usr/sbin" "/opt/local/bin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/bin-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec-x86_64-10_9" "/Applications/Emacs.app/Contents/MacOS/libexec" "/Applications/Emacs.app/Contents/MacOS/bin")))
  '(flycheck-disabled-checkers (quote (c++-clang c++-gcc)))
  '(focus-follows-mouse t)
  '(fortran-line-length 120)
@@ -24,7 +25,7 @@
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
  '(package-selected-packages
    (quote
-    (lsp-ui yasnippet lsp-mode irony clang-format+ swift-mode bison-mode cmake-mode flymake-yaml editorconfig smooth-scrolling smooth-scroll lex yaml-mode)))
+    (matlab-mode lsp-ui yasnippet lsp-mode irony clang-format+ swift-mode bison-mode cmake-mode flymake-yaml editorconfig smooth-scrolling smooth-scroll lex yaml-mode)))
  '(python-indent 4)
  '(python-indent-offset 4)
  '(show-paren-mode t)
@@ -39,8 +40,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 108 :width normal :foundry "bitstream" :family "Courier 10 Pitch"))))
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "cyan" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight medium :height 130 :width semicondensed :family "Andale Mono"))))
  '(font-lock-comment-face ((t (:foreground "Yellow"))))
  '(font-lock-keyword-face ((((class color) (min-colors 88) (background dark)) (:foreground "gray"))))
  '(font-lock-string-face ((t (:foreground "Orange")))))
-
