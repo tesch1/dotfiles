@@ -50,8 +50,8 @@
                      ;;irony
                      clang-format
 		     editorconfig
-;;                     lsp-mode
-;;                     lsp-ui
+                     lsp-mode
+                     lsp-ui
                      ))
 
 ;; setup MELPA
@@ -199,6 +199,8 @@
 (when (eq system-type 'darwin)
   (setq custom-file "~/.emacs.d/custom-darwin.el"))
 (when (eq system-type 'gnu/linux)
+;;  (global-set-key "<mouse-4>" scroll-up-one)
+;;  (global-set-key "<mouse-5>" 'scroll-down-one)
   (setq custom-file "~/.emacs.d/custom-linux.el"))
 (load custom-file)
 

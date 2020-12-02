@@ -7,7 +7,6 @@ export XWINNMRHOME=${HOME}/src/pv51
 export PYTHONSTARTUP=${HOME}/.pythonrc
 export NPM_PACKAGES=${HOME}/.npm-packages
 export NODE_PATH=${NPM_PACKAGES}/lib/node_modules
-export VAGRANT_HOME=/scrap/tesch/.vagrant.d
 export ANDROID_HOME=${HOME}/Android/Sdk
 export PATH=${HOME}/bin:${HOME}/local/bin:${PATH}:$NPM_PACKAGES/bin
 export PATH=${PATH}:/opt/SpinDrops
